@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Back Office — Personal Assistance Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070707;
+      --surface: #0f0f0f;
+      --border: #1a1a1a;
+      --border-light: #252525;
+      --text: #f0ede6;
+      --text-muted: #5a5a5a;
+      --text-dim: #333;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    @keyframes iridescent {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── RAINBOW UTILITIES ─────────────────────────── */
+    .r-text {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .r-bg {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    /* ── NAV ───────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(7,7,7,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ──────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10rem 2rem 7rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 400;
+      line-height: 1.02;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .hero-title em { font-style: italic; }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-bottom: 4.5rem;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    /* ── MATCHER ───────────────────────────────────── */
+    .matcher {
+      width: 100%;
+      max-width: 680px;
+      animation: fadeUp 0.9s 0.35s ease both;
+    }
+
+    .matcher-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 2rem 2rem 1.5rem;
+      position: relative;
+      transition: border-color 0.3s;
+    }
+
+    .matcher-box:focus-within {
+      border-color: transparent;
+      box-shadow: 0 0 0 1.5px transparent;
+    }
+
+    .matcher-box:focus-within::before {
+      content: '';
+      position: absolute;
+      inset: -1.5px;
+      border-radius: 17px;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      z-index: -1;
+    }
+
+    .matcher-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .matcher textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.975rem;
+      line-height: 1.75;
+      resize: none;
+      min-height: 90px;
+    }
+
+    .matcher textarea::placeholder { color: var(--text-dim); }
+
+    .matcher-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .matcher-hint {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .btn-match {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.7rem 1.6rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: #060606;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, opacity 0.2s;
+      min-width: 120px;
+    }
+
+    .btn-match::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .btn-match span, .btn-match .spinner { position: relative; z-index: 1; }
+
+    .btn-match:hover:not(:disabled) { transform: scale(1.04); }
+    .btn-match:active:not(:disabled) { transform: scale(0.97); }
+    .btn-match:disabled { opacity: 0.55; cursor: not-allowed; }
+
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(6,6,6,0.3);
+      border-top-color: #060606;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      display: none;
+    }
+
+    /* ── RESULT ────────────────────────────────────── */
+    .matcher-result {
+      margin-top: 1.25rem;
+      padding: 1.75rem;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      display: none;
+      text-align: left;
+    }
+
+    .matcher-result.visible {
+      display: block;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .result-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .result-type {
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      line-height: 1.1;
+    }
+
+    .result-reason {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .result-cta {
+      margin-top: 1rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .result-cta a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+
+    .result-cta a:hover { color: var(--text); }
+
+    /* ── SECTION BASE ──────────────────────────────── */
+    section {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.12;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ── REACH ─────────────────────────────────────── */
+    .reach-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 3.5rem;
+      background: var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .reach-item {
+      background: var(--surface);
+      padding: 2.25rem 2rem;
+      transition: background 0.25s;
+    }
+
+    .reach-item:hover { background: #141414; }
+
+    .reach-item-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .reach-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid var(--border-light);
+      border-radius: 100px;
+      color: var(--text-muted);
+      cursor: default;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag:hover {
+      color: #060606;
+      border-color: transparent;
+    }
+
+    .tag::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      opacity: 0;
+      transition: opacity 0.25s;
+      z-index: -1;
+    }
+
+    .tag:hover::before { opacity: 1; }
+
+    /* ── VA CARDS ──────────────────────────────────── */
+    .va-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .va-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .va-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(135deg,
+        rgba(255,107,157,0.04),
+        rgba(196,77,255,0.04),
+        rgba(77,121,255,0.04),
+        rgba(0,212,255,0.04));
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .va-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-3px);
+    }
+
+    .va-card:hover::after { opacity: 1; }
+
+    .va-number {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.25rem;
+    }
+
+    .va-name {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      line-height: 1.15;
+    }
+
+    .va-desc {
+      font-size: 0.855rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    .va-for {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    .va-for span { color: var(--text-muted); }
+
+    /* ── STEPS ─────────────────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4rem;
+      margin-top: 4rem;
+    }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 4rem;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ── FORM ──────────────────────────────────────── */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .form-field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    input, select, textarea {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 0.9rem 1rem;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 1.5px #c44dff;
+    }
+
+    select { cursor: pointer; }
+    select option { background: #161616; }
+    textarea { min-height: 110px; resize: vertical; }
+
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #060606;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+      margin-top: 1.5rem;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .btn-submit span { position: relative; z-index: 1; }
+    .btn-submit:hover { transform: scale(1.02); }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .form-success {
+      display: none;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* ── FOOTER ────────────────────────────────────── */
+    .footer-wrap {
+      border-top: 1px solid var(--border);
+      padding: 3rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .footer-tagline {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .footer-contact a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+
+    .footer-contact a:hover { color: var(--text); }
+
+    .footer-note {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 2rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 2rem; }
+      .reach-grid { grid-template-columns: 1fr; }
+      .va-grid { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 2rem; }
+      .footer-note { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      .va-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 3rem; }
+      .matcher-footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .btn-match { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">Back&nbsp;Office</a>
+    <ul class="nav-links">
+      <li><a href="#reach">Reach</a></li>
+      <li><a href="#types">Our VAs</a></li>
+      <li><a href="#how">Process</a></li>
+      <li><a href="#contact">Work With Us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <p class="hero-eyebrow">Personal Assistance Agency</p>
+    <h1 class="hero-title">
+      We handle<br>
+      <em class="r-text">the rest.</em>
+    </h1>
+    <p class="hero-sub">Tell us what your day looks like — or what's keeping you stuck. We'll match you to exactly the right support.</p>
+
+    <div class="matcher">
+      <div class="matcher-box">
+        <span class="matcher-label">Describe your day, your project, or your biggest headache</span>
+        <textarea id="matchInput" rows="4" placeholder="e.g. I run a music label, I have three shows coming up, my inbox is a disaster and I keep missing bookings…"></textarea>
+        <div class="matcher-footer">
+          <span class="matcher-hint">Cmd + Enter to match</span>
+          <button class="btn-match" id="matchBtn" onclick="runMatch()">
+            <span id="matchBtnLabel">Match me →</span>
+            <span class="spinner" id="matchSpinner"></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="matcher-result" id="matchResult">
+        <p class="result-label">You need a</p>
+        <p class="result-type r-text" id="resultType"></p>
+        <p class="result-reason" id="resultReason"></p>
+        <p class="result-cta">Ready? <a href="#contact">Fill in the interest form ↓</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- REACH -->
+  <section id="reach">
+    <p class="section-label">Our Footprint</p>
+    <h2 class="section-title">We show up<br>where it matters.</h2>
+    <div class="reach-grid">
+      <div class="reach-item">
+        <p class="reach-item-label">Where We Operate</p>
+        <div class="reach-tags">
+          <span class="tag">Lagos</span>
+          <span class="tag">Abuja</span>
+          <span class="tag">Remote</span>
+          <span class="tag">On Site</span>
+          <span class="tag">Travel Ready</span>
+        </div>
+      </div>
+      <div class="reach-item">
+        <p class="reach-item-label">Industries</p>
+        <div class="reach-tags">
+          <span class="tag">Music & Entertainment</span>
+          <span class="tag">Startups</span>
+          <span class="tag">Events</span>
+          <span class="tag">Creative Production</span>
+          <span class="tag">Executive & Corporate</span>
+          <span class="tag">Media</span>
+          <span class="tag">Others</span>
+        </div>
+      </div>
+      <div class="reach-item">
+        <p class="reach-item-label">What We Handle</p>
+        <div class="reach-tags">
+          <span class="tag">Documents & Admin</span>
+          <span class="tag">People & Talent</span>
+          <span class="tag">Travel & Logistics</span>
+          <span class="tag">Research & Intel</span>
+          <span class="tag">Tools & Ops</span>
+          <span class="tag">Personal Errands</span>
+          <span class="tag">Others</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- TYPES -->
+  <section id="types">
+    <p class="section-label">Our VAs</p>
+    <h2 class="section-title">The right person<br>for the right problem.</h2>
+    <div class="va-grid">
+      <div class="va-card">
+        <p class="va-number">01</p>
+        <p class="va-name">Executive VA</p>
+        <p class="va-desc">Calendar management, inbox control, travel coordination, and decision support. Your gatekeeper and right hand.</p>
+        <p class="va-for">Best for: <span>Founders, C-suite, portfolio operators</span></p>
+      </div>
+      <div class="va-card">
+        <p class="va-number">02</p>
+        <p class="va-name">Creative Ops VA</p>
+        <p class="va-desc">Bookings, contracts, shoot logistics, talent coordination, show management. For creatives who need someone on the ground.</p>
+        <p class="va-for">Best for: <span>Musicians, filmmakers, content creators</span></p>
+      </div>
+      <div class="va-card">
+        <p class="va-number">03</p>
+        <p class="va-name">Event & Project VA</p>
+        <p class="va-desc">Vendors, timelines, venues, travel, on ground execution. Hired per project — sharp, focused, and reliable.</p>
+        <p class="va-for">Best for: <span>Event organisers, project leads</span></p>
+      </div>
+      <div class="va-card">
+        <p class="va-number">04</p>
+        <p class="va-name">Research VA</p>
+        <p class="va-desc">Data gathering, report summaries, opportunity vetting, competitor tracking. Cerebral and precise.</p>
+        <p class="va-for">Best for: <span>Investors, strategists, busy founders</span></p>
+      </div>
+      <div class="va-card">
+        <p class="va-number">05</p>
+        <p class="va-name">Personal Life VA</p>
+        <p class="va-desc">Errands, family logistics, appointments, household vendors, travel bookings. Your personal life — managed.</p>
+        <p class="va-for">Best for: <span>HNIs, executives with full plates</span></p>
+      </div>
+      <div class="va-card">
+        <p class="va-number">06</p>
+        <p class="va-name">Tech Enabled VA</p>
+        <p class="va-desc">Automations, tool setup (Notion, Airtable, n8n, etc.), lightweight ops structure. Rare skill. Big gap.</p>
+        <p class="va-for">Best for: <span>Tech founders, tool heavy operators</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <p class="section-label">Process</p>
+    <h2 class="section-title">Three steps.<br>That's it.</h2>
+    <div class="steps">
+      <div>
+        <p class="step-num r-text">01</p>
+        <p class="step-title">Describe</p>
+        <p class="step-desc">Tell us your situation — your project, your chaos, your day. No need to frame it perfectly. We read between the lines.</p>
+      </div>
+      <div>
+        <p class="step-num r-text">02</p>
+        <p class="step-title">Match</p>
+        <p class="step-desc">We identify the type of VA you actually need and introduce you to the right person. No guessing, no misaligned hires.</p>
+      </div>
+      <div>
+        <p class="step-num r-text">03</p>
+        <p class="step-title">Deploy</p>
+        <p class="step-desc">They plug into your world — your tools, your rhythm, your pace. You get back to doing the work that matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INTEREST FORM -->
+  <section id="contact">
+    <p class="section-label">Work With Us</p>
+    <h2 class="section-title">Let's get you<br>sorted.</h2>
+    <form id="interestForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="fname">Full Name</label>
+          <input type="text" id="fname" placeholder="Your name" required />
+        </div>
+        <div class="form-field">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@email.com" required />
+        </div>
+        <div class="form-field">
+          <label for="vatype">Type of VA Needed</label>
+          <select id="vatype">
+            <option value="">Select a type</option>
+            <option>Executive VA</option>
+            <option>Creative Ops VA</option>
+            <option>Event &amp; Project VA</option>
+            <option>Research VA</option>
+            <option>Personal Life VA</option>
+            <option>Tech Enabled VA</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="timeline">When Do You Need Support?</label>
+          <select id="timeline">
+            <option value="">Select a timeline</option>
+            <option>As soon as possible</option>
+            <option>Within 2 weeks</option>
+            <option>Within a month</option>
+            <option>Just exploring</option>
+          </select>
+        </div>
+        <div class="form-field full">
+          <label for="message">Tell Us More (Optional)</label>
+          <textarea id="message" placeholder="A bit about your project, your team, or what's on your plate…"></textarea>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit"><span>Submit Interest →</span></button>
+      <p class="form-success" id="formSuccess">✓ Got it. We'll be in touch shortly.</p>
+    </form>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <div class="footer-wrap">
+    <div>
+      <p class="footer-logo">Back Office</p>
+      <p class="footer-tagline">We handle the rest.</p>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a>
+    </div>
+    <div class="footer-note">
+      <p>Lagos, Nigeria</p>
+      <p>Remote ready. Travel ready.</p>
+    </div>
+  </div>
+
+  <script>
+    async function runMatch() {
+      const input = document.getElementById('matchInput').value.trim();
+      if (!input) return;
+
+      const btn = document.getElementById('matchBtn');
+      const label = document.getElementById('matchBtnLabel');
+      const spinner = document.getElementById('matchSpinner');
+
+      btn.disabled = true;
+      label.style.display = 'none';
+      spinner.style.display = 'block';
+
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 1000,
+            system: `You are the matching engine for Back Office, a personal assistance agency based in Lagos, Nigeria. Given a description of someone's day, project, or problem, determine which VA type fits best.
+
+Available VA types: Executive VA, Creative Ops VA, Event & Project VA, Research VA, Personal Life VA, Tech-Enabled VA.
+
+Respond ONLY with a valid JSON object and nothing else — no preamble, no markdown:
+{"type": "VA type", "reason": "2–3 direct sentences explaining why this is the right fit and what specific things they would handle."}`,
+            messages: [{ role: 'user', content: input }]
+          })
+        });
+
+        const data = await res.json();
+        const raw = data.content[0].text.replace(/```json|```/g, '').trim();
+        const parsed = JSON.parse(raw);
+
+        document.getElementById('resultType').textContent = parsed.type;
+        document.getElementById('resultReason').textContent = parsed.reason;
+
+        const sel = document.getElementById('vatype');
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].text === parsed.type) {
+            sel.selectedIndex = i;
+            break;
+          }
+        }
+
+      } catch (e) {
+        document.getElementById('resultType').textContent = 'Tell us more';
+        document.getElementById('resultReason').textContent = "We couldn't auto-match this time — fill in the form below and we'll personally find the right fit for you.";
+      }
+
+      document.getElementById('matchResult').classList.add('visible');
+      btn.disabled = false;
+      label.style.display = 'inline';
+      spinner.style.display = 'none';
+    }
+
+    document.getElementById('matchInput').addEventListener('keydown', function(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runMatch();
+    });
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      document.getElementById('formSuccess').style.display = 'block';
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
