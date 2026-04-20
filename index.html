@@ -826,7 +826,7 @@
   <section id="contact">
     <p class="section-label">Work With Us</p>
     <h2 class="section-title">Let's get you<br>sorted.</h2>
-    <form id="interestForm" action="https://formspree.io/f/mojylbbp" method="POST">
+    <form id="interestForm" action="FORMSPREE_ENDPOINT" method="POST">
       <input type="hidden" name="_subject" value="New Back Office Enquiry" />
       <input type="hidden" name="_next" value="" />
       <div class="form-row">
@@ -866,9 +866,19 @@
           <textarea id="message" name="message" placeholder="A bit about your project, your team, or what's on your plate…"></textarea>
         </div>
       </div>
-      <button type="submit" class="btn-submit"><span>Submit Interest →</span></button>
-      <p class="form-success" id="formSuccess">✓ Got it. We'll be in touch shortly.</p>
+      <button type="submit" class="btn-submit" id="submitBtn"><span id="submitLabel">Submit Interest &rarr;</span><span class="spinner" id="submitSpinner"></span></button>
     </form>
+
+    <div id="successScreen" style="display:none;text-align:center;padding:4rem 2rem;animation:fadeUp 0.6s ease both;">
+      <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 2rem;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);background-size:400% 400%;animation:iridescent 7s ease infinite;display:flex;align-items:center;justify-content:center;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#060606" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+      </div>
+      <h3 style="font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:1rem;">We've got you.</h3>
+      <p style="color:var(--text-muted);font-size:0.95rem;max-width:440px;margin:0 auto 2rem;line-height:1.8;">Your enquiry is in. Someone from the Back Office team will be in touch shortly to discuss your needs and find you the right match.</p>
+      <p style="font-size:0.78rem;color:var(--text-dim);">In the meantime, reach us at <a href="mailto:contact.backofficeng@gmail.com" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">contact.backofficeng@gmail.com</a></p>
+    </div>
   </section>
 
   <div class="divider"></div>
@@ -936,11 +946,42 @@
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runMatch();
     });
 
-    function handleSubmit(e) {
+    document.getElementById('interestForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      document.getElementById('formSuccess').style.display = 'block';
-      e.target.reset();
-    }
+      const btn = document.getElementById('submitBtn');
+      const label = document.getElementById('submitLabel');
+      const spinner = document.getElementById('submitSpinner');
+
+      btn.disabled = true;
+      label.style.display = 'none';
+      spinner.style.display = 'block';
+
+      const formData = new FormData(this);
+
+      try {
+        const res = await fetch(this.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          document.getElementById('interestForm').style.display = 'none';
+          document.getElementById('successScreen').style.display = 'block';
+          document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          label.textContent = 'Try again →';
+          btn.disabled = false;
+          spinner.style.display = 'none';
+          label.style.display = 'inline';
+        }
+      } catch(err) {
+        label.textContent = 'Try again →';
+        btn.disabled = false;
+        spinner.style.display = 'none';
+        label.style.display = 'inline';
+      }
+    });
   </script>
 </body>
 </html>
