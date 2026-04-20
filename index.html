@@ -383,6 +383,7 @@
       transition: all 0.25s;
       position: relative;
       overflow: hidden;
+      background: transparent;
     }
 
     .tag:hover {
@@ -399,10 +400,15 @@
       animation: iridescent 7s ease infinite;
       opacity: 0;
       transition: opacity 0.25s;
-      z-index: -1;
+      z-index: 0;
     }
 
     .tag:hover::before { opacity: 1; }
+
+    .tag span {
+      position: relative;
+      z-index: 1;
+    }
 
     /* ── VA CARDS ──────────────────────────────────── */
     .va-grid {
@@ -477,8 +483,8 @@
     /* ── STEPS ─────────────────────────────────────── */
     .steps {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4rem;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem;
       margin-top: 4rem;
     }
 
@@ -704,35 +710,35 @@
       <div class="reach-item">
         <p class="reach-item-label">Where We Operate</p>
         <div class="reach-tags">
-          <span class="tag">Lagos</span>
-          <span class="tag">Abuja</span>
-          <span class="tag">Remote</span>
-          <span class="tag">On Site</span>
-          <span class="tag">Travel Ready</span>
+          <span class="tag"><span>Lagos</span></span>
+          <span class="tag"><span>Abuja</span></span>
+          <span class="tag"><span>Remote</span></span>
+          <span class="tag"><span>On Site</span></span>
+          <span class="tag"><span>Travel Ready</span></span>
         </div>
       </div>
       <div class="reach-item">
         <p class="reach-item-label">Industries</p>
         <div class="reach-tags">
-          <span class="tag">Music & Entertainment</span>
-          <span class="tag">Startups</span>
-          <span class="tag">Events</span>
-          <span class="tag">Creative Production</span>
-          <span class="tag">Executive & Corporate</span>
-          <span class="tag">Media</span>
-          <span class="tag">Others</span>
+          <span class="tag"><span>Music & Entertainment</span></span>
+          <span class="tag"><span>Startups</span></span>
+          <span class="tag"><span>Events</span></span>
+          <span class="tag"><span>Creative Production</span></span>
+          <span class="tag"><span>Executive & Corporate</span></span>
+          <span class="tag"><span>Media</span></span>
+          <span class="tag"><span>Others</span></span>
         </div>
       </div>
       <div class="reach-item">
         <p class="reach-item-label">What We Handle</p>
         <div class="reach-tags">
-          <span class="tag">Documents & Admin</span>
-          <span class="tag">People & Talent</span>
-          <span class="tag">Travel & Logistics</span>
-          <span class="tag">Research & Intel</span>
-          <span class="tag">Tools & Ops</span>
-          <span class="tag">Personal Errands</span>
-          <span class="tag">Others</span>
+          <span class="tag"><span>Documents & Admin</span></span>
+          <span class="tag"><span>People & Talent</span></span>
+          <span class="tag"><span>Travel & Logistics</span></span>
+          <span class="tag"><span>Research & Intel</span></span>
+          <span class="tag"><span>Tools & Ops</span></span>
+          <span class="tag"><span>Personal Errands</span></span>
+          <span class="tag"><span>Others</span></span>
         </div>
       </div>
     </div>
@@ -789,22 +795,27 @@
   <!-- HOW IT WORKS -->
   <section id="how">
     <p class="section-label">Process</p>
-    <h2 class="section-title">Three steps.<br>That's it.</h2>
+    <h2 class="section-title">Four steps.<br>That's it.</h2>
     <div class="steps">
       <div>
         <p class="step-num r-text">01</p>
-        <p class="step-title">Describe</p>
-        <p class="step-desc">Tell us your situation — your project, your chaos, your day. No need to frame it perfectly. We read between the lines.</p>
+        <p class="step-title">Request</p>
+        <p class="step-desc">Tell us your situation through the form — your project, your chaos, your day. No need to frame it perfectly. We read between the lines.</p>
       </div>
       <div>
         <p class="step-num r-text">02</p>
         <p class="step-title">Match</p>
-        <p class="step-desc">We identify the type of VA you actually need and introduce you to the right person. No guessing, no misaligned hires.</p>
+        <p class="step-desc">We reach out, discuss your needs, and introduce you to the right VA. No guessing, no misaligned hires.</p>
       </div>
       <div>
         <p class="step-num r-text">03</p>
-        <p class="step-title">Deploy</p>
-        <p class="step-desc">They plug into your world — your tools, your rhythm, your pace. You get back to doing the work that matters.</p>
+        <p class="step-title">Finalise</p>
+        <p class="step-desc">We align on scope, terms, and payment. Everything agreed and signed off before anyone lifts a finger.</p>
+      </div>
+      <div>
+        <p class="step-num r-text">04</p>
+        <p class="step-title">Get to Work</p>
+        <p class="step-desc">Your VA plugs into your world — your tools, your rhythm, your pace — on an agreed timeline. You focus on what matters.</p>
       </div>
     </div>
   </section>
@@ -889,25 +900,13 @@
       spinner.style.display = 'block';
 
       try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
+        const res = await fetch('/api/match', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 1000,
-            system: `You are the matching engine for Back Office, a personal assistance agency based in Lagos, Nigeria. Given a description of someone's day, project, or problem, determine which VA type fits best.
-
-Available VA types: Executive VA, Creative Ops VA, Event & Project VA, Research VA, Personal Life VA, Tech-Enabled VA.
-
-Respond ONLY with a valid JSON object and nothing else — no preamble, no markdown:
-{"type": "VA type", "reason": "2–3 direct sentences explaining why this is the right fit and what specific things they would handle."}`,
-            messages: [{ role: 'user', content: input }]
-          })
+          body: JSON.stringify({ input })
         });
 
-        const data = await res.json();
-        const raw = data.content[0].text.replace(/```json|```/g, '').trim();
-        const parsed = JSON.parse(raw);
+        const parsed = await res.json();
 
         document.getElementById('resultType').textContent = parsed.type;
         document.getElementById('resultReason').textContent = parsed.reason;
