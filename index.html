@@ -826,19 +826,21 @@
   <section id="contact">
     <p class="section-label">Work With Us</p>
     <h2 class="section-title">Let's get you<br>sorted.</h2>
-    <form id="interestForm" onsubmit="handleSubmit(event)">
+    <form id="interestForm" action="https://formspree.io/f/mojylbbp" method="POST">
+      <input type="hidden" name="_subject" value="New Back Office Enquiry" />
+      <input type="hidden" name="_next" value="" />
       <div class="form-row">
         <div class="form-field">
           <label for="fname">Full Name</label>
-          <input type="text" id="fname" placeholder="Your name" required />
+          <input type="text" id="fname" name="name" placeholder="Your name" required />
         </div>
         <div class="form-field">
           <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="you@email.com" required />
+          <input type="email" id="email" name="email" placeholder="you@email.com" required />
         </div>
         <div class="form-field">
           <label for="vatype">Type of VA Needed</label>
-          <select id="vatype">
+          <select id="vatype" name="va_type">
             <option value="">Select a type</option>
             <option>Executive VA</option>
             <option>Creative Ops VA</option>
@@ -851,7 +853,7 @@
         </div>
         <div class="form-field">
           <label for="timeline">When Do You Need Support?</label>
-          <select id="timeline">
+          <select id="timeline" name="timeline">
             <option value="">Select a timeline</option>
             <option>As soon as possible</option>
             <option>Within 2 weeks</option>
@@ -861,7 +863,7 @@
         </div>
         <div class="form-field full">
           <label for="message">Tell Us More (Optional)</label>
-          <textarea id="message" placeholder="A bit about your project, your team, or what's on your plate…"></textarea>
+          <textarea id="message" name="message" placeholder="A bit about your project, your team, or what's on your plate…"></textarea>
         </div>
       </div>
       <button type="submit" class="btn-submit"><span>Submit Interest →</span></button>
