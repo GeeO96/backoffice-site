@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
   if (!input) return res.status(400).json({ error: 'No input provided' });
 
   const body = JSON.stringify({
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-6',
     max_tokens: 1000,
     system: `You are the matching engine for Back Office, a personal assistance agency based in Lagos, Nigeria. Given a description of someone's day, project, or problem, determine which VA type fits best.
 
