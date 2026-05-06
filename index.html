@@ -33,9 +33,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     html { scroll-behavior: smooth; }
 
@@ -47,7 +45,6 @@
       overflow-x: hidden;
     }
 
-    /* ── RAINBOW UTILITIES ─────────────────────────── */
     .r-text {
       background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
       background-size: 400% 400%;
@@ -63,7 +60,6 @@
       animation: iridescent 7s ease infinite;
     }
 
-    /* ── NAV ───────────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -87,11 +83,7 @@
       text-decoration: none;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
 
     .nav-links a {
       font-size: 0.76rem;
@@ -104,7 +96,6 @@
 
     .nav-links a:hover { color: var(--text); }
 
-    /* ── HERO ──────────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -143,7 +134,6 @@
       animation: fadeUp 0.9s 0.2s ease both;
     }
 
-    /* ── MATCHER ───────────────────────────────────── */
     .matcher {
       width: 100%;
       max-width: 680px;
@@ -159,10 +149,7 @@
       transition: border-color 0.3s;
     }
 
-    .matcher-box:focus-within {
-      border-color: transparent;
-      box-shadow: 0 0 0 1.5px transparent;
-    }
+    .matcher-box:focus-within { border-color: transparent; }
 
     .matcher-box:focus-within::before {
       content: '';
@@ -208,10 +195,7 @@
       border-top: 1px solid var(--border);
     }
 
-    .matcher-hint {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-    }
+    .matcher-hint { font-size: 0.78rem; color: var(--text-dim); }
 
     .btn-match {
       display: inline-flex;
@@ -243,7 +227,6 @@
     }
 
     .btn-match span, .btn-match .spinner { position: relative; z-index: 1; }
-
     .btn-match:hover:not(:disabled) { transform: scale(1.04); }
     .btn-match:active:not(:disabled) { transform: scale(0.97); }
     .btn-match:disabled { opacity: 0.55; cursor: not-allowed; }
@@ -258,7 +241,6 @@
       display: none;
     }
 
-    /* ── RESULT ────────────────────────────────────── */
     .matcher-result {
       margin-top: 1.25rem;
       padding: 1.75rem;
@@ -269,78 +251,23 @@
       text-align: left;
     }
 
-    .matcher-result.visible {
-      display: block;
-      animation: fadeUp 0.5s ease both;
-    }
+    .matcher-result.visible { display: block; animation: fadeUp 0.5s ease both; }
 
-    .result-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
-    }
-
-    .result-type {
-      font-family: var(--serif);
-      font-size: 2rem;
-      font-weight: 500;
-      margin-bottom: 0.75rem;
-      line-height: 1.1;
-    }
-
-    .result-reason {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-    }
-
-    .result-cta {
-      margin-top: 1rem;
-      font-size: 0.78rem;
-      color: var(--text-dim);
-    }
-
-    .result-cta a {
-      color: var(--text-muted);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      transition: color 0.2s;
-    }
-
+    .result-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
+    .result-type { font-family: var(--serif); font-size: 2rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.1; }
+    .result-reason { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
+    .result-cta { margin-top: 1rem; font-size: 0.78rem; color: var(--text-dim); }
+    .result-cta a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
     .result-cta a:hover { color: var(--text); }
 
-    /* ── SECTION BASE ──────────────────────────────── */
-    section {
-      padding: 8rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    section { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; }
 
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
+    .section-label { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; }
 
-    .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 4vw, 3.8rem);
-      font-weight: 400;
-      line-height: 1.12;
-    }
+    .section-title { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 400; line-height: 1.12; }
 
-    .divider {
-      height: 1px;
-      background: var(--border);
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .divider { height: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; }
 
-    /* ── REACH ─────────────────────────────────────── */
     .reach-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -351,27 +278,10 @@
       overflow: hidden;
     }
 
-    .reach-item {
-      background: var(--surface);
-      padding: 2.25rem 2rem;
-      transition: background 0.25s;
-    }
-
+    .reach-item { background: var(--surface); padding: 2.25rem 2rem; transition: background 0.25s; }
     .reach-item:hover { background: #141414; }
-
-    .reach-item-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
-
-    .reach-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+    .reach-item-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; }
+    .reach-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
     .tag {
       font-size: 0.78rem;
@@ -386,10 +296,7 @@
       background: transparent;
     }
 
-    .tag:hover {
-      color: #060606;
-      border-color: transparent;
-    }
+    .tag:hover { color: #060606; border-color: transparent; }
 
     .tag::before {
       content: '';
@@ -404,19 +311,9 @@
     }
 
     .tag:hover::before { opacity: 1; }
+    .tag span { position: relative; z-index: 1; }
 
-    .tag span {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── VA CARDS ──────────────────────────────────── */
-    .va-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 3.5rem;
-    }
+    .va-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
 
     .va-card {
       background: var(--surface);
@@ -433,106 +330,29 @@
       position: absolute;
       inset: 0;
       opacity: 0;
-      background: linear-gradient(135deg,
-        rgba(255,107,157,0.04),
-        rgba(196,77,255,0.04),
-        rgba(77,121,255,0.04),
-        rgba(0,212,255,0.04));
+      background: linear-gradient(135deg, rgba(255,107,157,0.04), rgba(196,77,255,0.04), rgba(77,121,255,0.04), rgba(0,212,255,0.04));
       transition: opacity 0.3s;
       pointer-events: none;
     }
 
-    .va-card:hover {
-      border-color: var(--border-light);
-      transform: translateY(-3px);
-    }
-
+    .va-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
     .va-card:hover::after { opacity: 1; }
-
-    .va-number {
-      font-size: 0.68rem;
-      color: var(--text-dim);
-      letter-spacing: 0.12em;
-      margin-bottom: 1.25rem;
-    }
-
-    .va-name {
-      font-family: var(--serif);
-      font-size: 1.6rem;
-      font-weight: 500;
-      margin-bottom: 0.75rem;
-      line-height: 1.15;
-    }
-
-    .va-desc {
-      font-size: 0.855rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-    }
-
-    .va-for {
-      margin-top: 1.25rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-
+    .va-number { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.12em; margin-bottom: 1.25rem; }
+    .va-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.15; }
+    .va-desc { font-size: 0.855rem; color: var(--text-muted); line-height: 1.75; }
+    .va-for { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-dim); }
     .va-for span { color: var(--text-muted); }
 
-    /* ── STEPS ─────────────────────────────────────── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3rem;
-      margin-top: 4rem;
-    }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; margin-top: 4rem; }
+    .step-num { font-family: var(--serif); font-size: 4rem; font-weight: 300; line-height: 1; margin-bottom: 1.5rem; }
+    .step-title { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; color: var(--text); }
+    .step-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
 
-    .step-num {
-      font-family: var(--serif);
-      font-size: 4rem;
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-
-    .step-title {
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-
-    .step-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.75;
-    }
-
-    /* ── FORM ──────────────────────────────────────── */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 3.5rem;
-    }
-
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.6rem; }
     .form-field.full { grid-column: 1 / -1; }
 
-    label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
+    label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
 
     input, select, textarea {
       background: var(--surface);
@@ -547,11 +367,7 @@
       -webkit-appearance: none;
     }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: transparent;
-      box-shadow: 0 0 0 1.5px #c44dff;
-    }
-
+    input:focus, select:focus, textarea:focus { border-color: transparent; box-shadow: 0 0 0 1.5px #c44dff; }
     select { cursor: pointer; }
     select option { background: #161616; }
     textarea { min-height: 110px; resize: vertical; }
@@ -587,14 +403,6 @@
     .btn-submit:hover { transform: scale(1.02); }
     .btn-submit:active { transform: scale(0.98); }
 
-    .form-success {
-      display: none;
-      margin-top: 1rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    /* ── FOOTER ────────────────────────────────────── */
     .footer-wrap {
       border-top: 1px solid var(--border);
       padding: 3rem 4rem;
@@ -605,77 +413,78 @@
       justify-content: space-between;
     }
 
-    .footer-logo {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 0.25rem;
-    }
-
-    .footer-tagline {
-      font-size: 0.78rem;
-      color: var(--text-dim);
-    }
-
-    .footer-contact a {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
-    }
-
+    .footer-logo { font-family: var(--serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .footer-tagline { font-size: 0.78rem; color: var(--text-dim); }
+    .footer-contact a { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
     .footer-contact a:hover { color: var(--text); }
+    .footer-note { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
 
-    .footer-note {
-      font-size: 0.72rem;
-      color: var(--text-dim);
-      text-align: right;
-    }
-
-    /* ── RESPONSIVE ────────────────────────────────── */
     @media (max-width: 900px) {
-      nav { padding: 1.25rem 2rem; }
+      nav { padding: 1.25rem 1.5rem; }
       .nav-links { display: none; }
-      section { padding: 5rem 2rem; }
+      section { padding: 4rem 1.5rem; }
       .reach-grid { grid-template-columns: 1fr; }
       .va-grid { grid-template-columns: 1fr 1fr; }
-      .steps { grid-template-columns: 1fr; gap: 3rem; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
       .form-row { grid-template-columns: 1fr; }
-      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 2rem; }
+      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
       .footer-note { text-align: left; }
     }
 
     @media (max-width: 600px) {
-      .va-grid { grid-template-columns: 1fr; }
-      .hero-title { font-size: 3rem; }
-      .matcher-footer { flex-direction: column; gap: 1rem; align-items: flex-start; }
+      nav { padding: 1rem 1.25rem; }
+      .hero { padding: 5rem 1.25rem 3rem; min-height: auto; }
+      .hero-eyebrow { margin-bottom: 0.75rem; font-size: 0.65rem; }
+      .hero-title { font-size: 2.4rem; margin-bottom: 1rem; }
+      .hero-sub { font-size: 0.875rem; margin-bottom: 2rem; }
+      .matcher { max-width: 100%; }
+      .matcher-box { padding: 1.25rem; border-radius: 12px; }
+      .matcher-label { font-size: 0.62rem; letter-spacing: 0.1em; }
+      .matcher textarea { font-size: 0.875rem; min-height: 70px; }
+      .matcher-footer { flex-direction: column; gap: 0.75rem; align-items: flex-start; margin-top: 1rem; padding-top: 1rem; }
       .btn-match { width: 100%; justify-content: center; }
+      .matcher-result { padding: 1.25rem; margin-top: 1rem; }
+      .result-type { font-size: 1.6rem; }
+      .result-reason { font-size: 0.82rem; }
+      section { padding: 3rem 1.25rem; }
+      .section-label { font-size: 0.65rem; }
+      .section-title { font-size: 1.75rem; }
+      .reach-grid { gap: 1px; border-radius: 10px; }
+      .reach-item { padding: 1.25rem; }
+      .tag { font-size: 0.72rem; padding: 0.25rem 0.65rem; }
+      .va-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .va-card { padding: 1.25rem; border-radius: 10px; }
+      .va-number { font-size: 0.62rem; margin-bottom: 0.75rem; }
+      .va-name { font-size: 1.25rem; margin-bottom: 0.5rem; }
+      .va-desc { font-size: 0.82rem; }
+      .va-for { font-size: 0.72rem; margin-top: 1rem; padding-top: 1rem; }
+      .steps { grid-template-columns: 1fr; gap: 1.75rem; }
+      .step-num { font-size: 2.2rem; margin-bottom: 0.5rem; }
+      .step-desc { font-size: 0.82rem; }
+      .form-row { gap: 0.875rem; margin-top: 2rem; }
+      input, select, textarea { padding: 0.8rem 0.875rem; font-size: 0.875rem; }
+      .btn-submit { width: 100%; justify-content: center; padding: 0.9rem; margin-top: 1.25rem; }
+      .footer-wrap { padding: 2rem 1.25rem; gap: 1rem; }
+      .footer-note { font-size: 0.68rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <a href="#" class="logo">Back&nbsp;Office</a>
     <ul class="nav-links">
       <li><a href="#reach">Reach</a></li>
       <li><a href="#types">Our VAs</a></li>
       <li><a href="#how">Process</a></li>
+      <li><a href="discova.html">Discova</a></li>
       <li><a href="#contact">Work With Us</a></li>
     </ul>
   </nav>
 
-  <!-- HERO -->
   <div class="hero">
     <p class="hero-eyebrow">Personal Assistance Agency</p>
-    <h1 class="hero-title">
-      We handle<br>
-      <em class="r-text">the rest.</em>
-    </h1>
+    <h1 class="hero-title">We handle<br><em class="r-text">the rest.</em></h1>
     <p class="hero-sub">Tell us what your day looks like — or what's keeping you stuck. We'll match you to exactly the right support.</p>
 
     <div class="matcher">
@@ -702,7 +511,6 @@
 
   <div class="divider"></div>
 
-  <!-- REACH -->
   <section id="reach">
     <p class="section-label">Our Footprint</p>
     <h2 class="section-title">We show up<br>where it matters.</h2>
@@ -746,7 +554,6 @@
 
   <div class="divider"></div>
 
-  <!-- TYPES -->
   <section id="types">
     <p class="section-label">Our VAs</p>
     <h2 class="section-title">The right person<br>for the right problem.</h2>
@@ -792,7 +599,6 @@
 
   <div class="divider"></div>
 
-  <!-- HOW IT WORKS -->
   <section id="how">
     <p class="section-label">Process</p>
     <h2 class="section-title">Four steps.<br>That's it.</h2>
@@ -822,7 +628,6 @@
 
   <div class="divider"></div>
 
-  <!-- INTEREST FORM -->
   <section id="contact">
     <p class="section-label">Work With Us</p>
     <h2 class="section-title">Let's get you<br>sorted.</h2>
@@ -883,7 +688,6 @@
 
   <div class="divider"></div>
 
-  <!-- FOOTER -->
   <div class="footer-wrap">
     <div>
       <p class="footer-logo">Back Office</p>
@@ -902,40 +706,29 @@
     async function runMatch() {
       const input = document.getElementById('matchInput').value.trim();
       if (!input) return;
-
       const btn = document.getElementById('matchBtn');
       const label = document.getElementById('matchBtnLabel');
       const spinner = document.getElementById('matchSpinner');
-
       btn.disabled = true;
       label.style.display = 'none';
       spinner.style.display = 'block';
-
       try {
         const res = await fetch('/api/match', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ input })
         });
-
         const parsed = await res.json();
-
         document.getElementById('resultType').textContent = parsed.type;
         document.getElementById('resultReason').textContent = parsed.reason;
-
         const sel = document.getElementById('vatype');
         for (let i = 0; i < sel.options.length; i++) {
-          if (sel.options[i].text === parsed.type) {
-            sel.selectedIndex = i;
-            break;
-          }
+          if (sel.options[i].text === parsed.type) { sel.selectedIndex = i; break; }
         }
-
       } catch (e) {
         document.getElementById('resultType').textContent = 'Tell us more';
         document.getElementById('resultReason').textContent = "We couldn't auto-match this time — fill in the form below and we'll personally find the right fit for you.";
       }
-
       document.getElementById('matchResult').classList.add('visible');
       btn.disabled = false;
       label.style.display = 'inline';
@@ -951,20 +744,16 @@
       const btn = document.getElementById('submitBtn');
       const label = document.getElementById('submitLabel');
       const spinner = document.getElementById('submitSpinner');
-
       btn.disabled = true;
       label.style.display = 'none';
       spinner.style.display = 'block';
-
       const formData = new FormData(this);
-
       try {
         const res = await fetch(this.action, {
           method: 'POST',
           body: formData,
           headers: { 'Accept': 'application/json' }
         });
-
         if (res.ok) {
           document.getElementById('interestForm').style.display = 'none';
           document.getElementById('successScreen').style.display = 'block';

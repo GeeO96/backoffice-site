@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discova — Back Office</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070707;
+      --surface: #0f0f0f;
+      --border: #1a1a1a;
+      --border-light: #252525;
+      --text: #f0ede6;
+      --text-muted: #5a5a5a;
+      --text-dim: #333;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    @keyframes iridescent {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .r-text {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: iridescent 7s ease infinite;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(7,7,7,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--text); }
+
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.9s 0.1s ease both;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.8;
+      animation: fadeUp 0.9s 0.2s ease both;
+    }
+
+    section {
+      padding: 7rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.12;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* COMPARISON */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 3.5rem;
+    }
+
+    .comparison-col {
+      background: var(--surface);
+      padding: 2.5rem;
+    }
+
+    .comparison-col.highlight {
+      background: #0d0d0d;
+      position: relative;
+    }
+
+    .comparison-col.highlight::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,107,157,0.04), rgba(196,77,255,0.04), rgba(77,121,255,0.04));
+      pointer-events: none;
+    }
+
+    .col-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-light);
+      display: block;
+    }
+
+    .col-label.muted { color: var(--text-muted); }
+
+    .comparison-item {
+      display: flex;
+      gap: 0.875rem;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .comparison-item:last-child { margin-bottom: 0; }
+
+    .ci-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      font-size: 0.7rem;
+    }
+
+    .ci-icon.no { background: rgba(255,255,255,0.04); color: var(--text-dim); }
+
+    .ci-icon.yes {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      color: #060606;
+      font-weight: 600;
+    }
+
+    .ci-text { font-size: 0.875rem; color: var(--text-muted); line-height: 1.65; }
+    .ci-text strong { color: var(--text); font-weight: 500; display: block; margin-bottom: 0.2rem; }
+
+    /* USE CASES */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .case-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(135deg, rgba(255,107,157,0.04), rgba(196,77,255,0.04), rgba(77,121,255,0.04));
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .case-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
+    .case-card:hover::after { opacity: 1; }
+
+    .case-icon { font-size: 1.5rem; margin-bottom: 1rem; display: block; }
+
+    .case-title {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+    }
+
+    .case-desc { font-size: 0.855rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1.25rem; }
+
+    .case-va {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .case-va span { color: var(--text-muted); }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 7rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2.75rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #060606;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .btn-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .btn-cta span { position: relative; z-index: 1; }
+    .btn-cta:hover { transform: scale(1.02); }
+
+    .footer-wrap {
+      border-top: 1px solid var(--border);
+      padding: 3rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .footer-logo { font-family: var(--serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .footer-tagline { font-size: 0.78rem; color: var(--text-dim); }
+    .footer-contact a { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-contact a:hover { color: var(--text); }
+    .footer-note { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .comparison { grid-template-columns: 1fr; }
+      .cases-grid { grid-template-columns: 1fr 1fr; }
+      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+      .footer-note { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero { padding: 5rem 1.25rem 3rem; min-height: auto; }
+      .hero-title { font-size: 2.8rem; }
+      .hero-sub { font-size: 0.9rem; }
+      section { padding: 3rem 1.25rem; }
+      .section-title { font-size: 1.75rem; }
+      .comparison-col { padding: 1.5rem; }
+      .cases-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .case-card { padding: 1.5rem; }
+      .cta-section { padding: 4rem 1.25rem; }
+      .btn-cta { width: 100%; justify-content: center; }
+      .footer-wrap { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Back&nbsp;Office</a>
+    <ul class="nav-links">
+      <li><a href="index.html#reach">Reach</a></li>
+      <li><a href="index.html#types">Our VAs</a></li>
+      <li><a href="index.html#how">Process</a></li>
+      <li><a href="discova.html" class="active">Discova</a></li>
+      <li><a href="index.html#contact">Work With Us</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <p class="hero-eyebrow">Back Office — Discova</p>
+    <h1 class="hero-title">Not sure if you<br><em class="r-text">need us?</em></h1>
+    <p class="hero-sub">Most people don't realise they need a VA until they're already overwhelmed. This page exists to help you figure it out — before it gets to that point.</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- WHY BACK OFFICE -->
+  <section id="why">
+    <p class="section-label">The Real Difference</p>
+    <h2 class="section-title">Why Back Office over<br>hiring a PA yourself?</h2>
+    <p class="section-sub">Hiring on your own is possible. But here's what most people find out the hard way.</p>
+
+    <div class="comparison">
+      <div class="comparison-col">
+        <span class="col-label muted">Hiring a PA yourself</span>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>Time-consuming search</strong>Job postings, interviews, background checks — all on your plate before the work even starts.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>One skill set, one person</strong>Your hire is good at some things and not others. You work around their gaps.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>You carry the HR weight</strong>Contracts, payroll, tax compliance, offboarding — all yours to manage.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>No accountability buffer</strong>If they drop the ball, there's no one else to call. You absorb the fallout.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>Fixed cost, fixed output</strong>Paying full-time for part-time needs. No flexibility to scale up or down.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon no">✕</div>
+          <div class="ci-text"><strong>Slow to start</strong>Onboarding takes time. You're still doing everything while they settle in.</div>
+        </div>
+      </div>
+
+      <div class="comparison-col highlight">
+        <span class="col-label r-text">With Back Office</span>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>We handle the match</strong>Tell us what you need. We find the right person — vetted, trained, and ready.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>Right skill for every need</strong>Different task, different expert. We switch in the right VA so nothing gets mishandled.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>Zero HR overhead</strong>No contracts, no payroll, no compliance stress. We hold that weight so you don't.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>Accountability sits with us</strong>Something goes wrong, you call Back Office — not chase a freelancer. We own it.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>Pay for what you need</strong>Scale up for a big project, scale down when it's quiet. No wasted spend.</div>
+        </div>
+        <div class="comparison-item">
+          <div class="ci-icon yes">✓</div>
+          <div class="ci-text"><strong>Deploy immediately</strong>No ramp-up. Our VAs are trained and briefed. They hit the ground running.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- USE CASES -->
+  <section id="usecases">
+    <p class="section-label">Use Cases</p>
+    <h2 class="section-title">When do you<br>actually need us?</h2>
+    <p class="section-sub">If any of these sound familiar, you need a Back Office VA.</p>
+
+    <div class="cases-grid">
+      <div class="case-card">
+        <span class="case-icon">✈️</span>
+        <p class="case-title">Interstate or International Travel</p>
+        <p class="case-desc">You have a conference in Abuja, a meeting in London, and a keynote in Accra — all in two weeks. Flights, hotels, ground transport, itineraries, visa logistics, restaurant bookings. Someone needs to own all of that so you can just show up.</p>
+        <p class="case-va">VA Type: <span>Executive VA / Event & Project VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🎙️</span>
+        <p class="case-title">Panel Sessions & Speaking Engagements</p>
+        <p class="case-desc">You're on a panel, giving a keynote, or hosting a summit. You need someone coordinating your schedule, managing your content, capturing moments for brand use, and handling the logistics while you're on stage.</p>
+        <p class="case-va">VA Type: <span>Creative Ops VA / Executive VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🏠</span>
+        <p class="case-title">House Management While Away</p>
+        <p class="case-desc">You travel for work and things fall apart at home — contractors ghost, deliveries go missing, the generator breaks. A personal VA keeps your home running exactly as it should while you're focused elsewhere.</p>
+        <p class="case-va">VA Type: <span>Personal Life VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🚀</span>
+        <p class="case-title">Product or Brand Launch</p>
+        <p class="case-desc">Launch week is controlled chaos. Vendors, press, timelines, social content, influencer coordination, event logistics — there are too many moving parts for one person. A VA becomes your command centre.</p>
+        <p class="case-va">VA Type: <span>Creative Ops VA / Event & Project VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🎬</span>
+        <p class="case-title">Film or Fashion Shoot</p>
+        <p class="case-desc">Talent is late, the stylist needs directions, catering hasn't arrived, and the director is asking for the shot list. Someone has to hold the ground operations together so the creative work can happen.</p>
+        <p class="case-va">VA Type: <span>Creative Ops VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🏗️</span>
+        <p class="case-title">Home Renovation While Working</p>
+        <p class="case-desc">The renovation is running. You have contractors to coordinate, materials to approve, decisions to make — but you also have a job. A VA manages the site on your behalf so it doesn't become your second full-time role.</p>
+        <p class="case-va">VA Type: <span>Personal Life VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">📦</span>
+        <p class="case-title">Relocation to a New City</p>
+        <p class="case-desc">New apartment hunting, utility setup, school enrollment, domestic staff sourcing, area orientation. Relocating is a project. Treat it like one — with dedicated support to handle every moving part.</p>
+        <p class="case-va">VA Type: <span>Personal Life VA / Executive VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">💼</span>
+        <p class="case-title">Heavy Interview or Hiring Season</p>
+        <p class="case-desc">You're scaling your team and suddenly your calendar is wall-to-wall interviews. Scheduling, candidate communication, shortlist management, offer letters — a VA holds the process so you only show up where it counts.</p>
+        <p class="case-va">VA Type: <span>Executive VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🩺</span>
+        <p class="case-title">Medical Trip or Health Emergency</p>
+        <p class="case-desc">Whether it's travel for treatment abroad or managing logistics around a family health situation — hospital bookings, travel arrangements, insurance paperwork, accommodation for family. Someone needs to be the calm in the chaos.</p>
+        <p class="case-va">VA Type: <span>Personal Life VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🎓</span>
+        <p class="case-title">School Resumption & Family Admin</p>
+        <p class="case-desc">School fees, supply lists, uniform runs, medical forms, extracurricular scheduling — resumption season is a project in itself. A VA handles the admin so you handle the parenting.</p>
+        <p class="case-va">VA Type: <span>Personal Life VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🎵</span>
+        <p class="case-title">Music Tour or Media Run</p>
+        <p class="case-desc">Back-to-back shows, press interviews, travel between cities, social content capture, rider management. You're the talent — someone else needs to be the engine keeping everything moving.</p>
+        <p class="case-va">VA Type: <span>Creative Ops VA / Event & Project VA</span></p>
+      </div>
+
+      <div class="case-card">
+        <span class="case-icon">🛠️</span>
+        <p class="case-title">Tool & Ops Overload</p>
+        <p class="case-desc">You're running Notion, Airtable, Slack, Gmail, and three other tools — and none of them talk to each other. A tech-enabled VA builds the automations, sets up the systems, and brings order to your digital stack.</p>
+        <p class="case-va">VA Type: <span>Tech Enabled VA</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <div class="cta-section">
+    <p class="section-label">Ready?</p>
+    <h2 class="section-title" style="margin-bottom:1rem"><em class="r-text">You need us.</em><br>Let's get started.</h2>
+    <p class="section-sub" style="margin:0 auto 2.5rem">Tell us what's on your plate and we'll match you to the right VA.</p>
+    <a href="index.html#contact" class="btn-cta"><span>Work With Us →</span></a>
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer-wrap">
+    <div>
+      <p class="footer-logo">Back Office</p>
+      <p class="footer-tagline">We handle the rest.</p>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a>
+    </div>
+    <div class="footer-note">
+      <p>Lagos, Nigeria</p>
+      <p>Remote ready. Travel ready.</p>
+    </div>
+  </div>
+
+</body>
+</html>
