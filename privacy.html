@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Back Office</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070707;
+      --surface: #0f0f0f;
+      --border: #1a1a1a;
+      --border-light: #252525;
+      --text: #f0ede6;
+      --text-muted: #5a5a5a;
+      --text-dim: #333;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    @keyframes iridescent {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .r-text {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: iridescent 7s ease infinite;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(7,7,7,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+    .nav-links a {
+      font-size: 0.76rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .hero {
+      padding: 10rem 4rem 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .divider { height: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; }
+
+    .content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 5rem 4rem 8rem;
+    }
+
+    .section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .section p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 0.875rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .section ul {
+      list-style: none;
+      margin: 0.875rem 0;
+    }
+
+    .section ul li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.4rem;
+    }
+
+    .section ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--text-dim);
+    }
+
+    .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .highlight-box p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .contact-link {
+      color: var(--text-muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+
+    .contact-link:hover { color: var(--text); }
+
+    .footer-wrap {
+      border-top: 1px solid var(--border);
+      padding: 3rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .footer-logo { font-family: var(--serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .footer-tagline { font-size: 0.78rem; color: var(--text-dim); }
+    .footer-contact a { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    .footer-contact a:hover { color: var(--text); }
+    .footer-note { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 8rem 1.5rem 3rem; }
+      .content { padding: 3rem 1.5rem 6rem; }
+      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
+      .footer-note { text-align: left; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .hero { padding: 6rem 1.25rem 2.5rem; }
+      .hero-title { font-size: 2.5rem; }
+      .content { padding: 2.5rem 1.25rem 5rem; }
+      .footer-wrap { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">Back&nbsp;Office</a>
+    <ul class="nav-links">
+      <li><a href="index.html#reach">Reach</a></li>
+      <li><a href="index.html#types">Our VAs</a></li>
+      <li><a href="index.html#how">Process</a></li>
+      <li><a href="discova.html">Discova</a></li>
+      <li><a href="index.html#contact">Work With Us</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <p class="hero-eyebrow">Legal</p>
+    <h1 class="hero-title">Privacy <em class="r-text">Policy.</em></h1>
+    <p class="hero-meta">Last updated: May 2025 &nbsp;·&nbsp; Back Office, Lagos, Nigeria</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="content">
+
+    <div class="highlight-box">
+      <p>We keep this simple. Back Office collects only what's necessary to match you with the right VA and get in touch with you. We don't sell your data, we don't spam you, and we don't store anything we don't need.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Who we are</h2>
+      <p>Back Office is a personal assistance agency based in Lagos, Nigeria. We connect clients with trained Virtual Assistants for executive, creative, personal, and operational support.</p>
+      <p>For questions about this policy, contact us at <a href="mailto:contact.backofficeng@gmail.com" class="contact-link">contact.backofficeng@gmail.com</a>.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">What we collect</h2>
+      <p>When you submit an interest form on our website, we collect:</p>
+      <ul>
+        <li>Your full name</li>
+        <li>Your email address</li>
+        <li>The type of VA support you're looking for</li>
+        <li>Your preferred timeline</li>
+        <li>Any additional details you choose to share in the message field</li>
+      </ul>
+      <p>We also collect non-personal usage data through standard web analytics (page visits, browser type, general location). This data is aggregated and never tied to you personally.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">How we use your information</h2>
+      <p>The information you submit is used solely to:</p>
+      <ul>
+        <li>Respond to your enquiry and match you with the right VA</li>
+        <li>Communicate with you about your request</li>
+        <li>Improve how we serve future clients</li>
+      </ul>
+      <p>We do not use your data for advertising, profiling, or any purpose unrelated to your enquiry.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">How your data is stored</h2>
+      <p>Form submissions are processed through Formspree, a secure third-party form service, and forwarded to our team email. Formspree operates in compliance with GDPR and uses encrypted transmission.</p>
+      <p>We do not operate our own database of user information. Enquiry emails are retained only as long as necessary to complete or follow up on your request.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Who we share your data with</h2>
+      <p>We do not sell, rent, or trade your personal information. Your data may be shared with:</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:500">Formspree</strong> — for form submission processing</li>
+        <li><strong style="color:var(--text);font-weight:500">Our VA team</strong> — only when matching you to a specific assistant, with your knowledge</li>
+      </ul>
+      <p>No data is shared with advertisers, data brokers, or unrelated third parties.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Your rights</h2>
+      <p>Under the Nigeria Data Protection Regulation (NDPR) and applicable data protection law, you have the right to:</p>
+      <ul>
+        <li>Request access to the personal data we hold about you</li>
+        <li>Request correction of inaccurate information</li>
+        <li>Request deletion of your data</li>
+        <li>Withdraw consent at any time</li>
+        <li>Lodge a complaint with the National Information Technology Development Agency (NITDA)</li>
+      </ul>
+      <p>To exercise any of these rights, email us at <a href="mailto:contact.backofficeng@gmail.com" class="contact-link">contact.backofficeng@gmail.com</a> and we will respond within 7 business days.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Cookies</h2>
+      <p>Our website does not use tracking cookies or advertising pixels. We may use essential cookies to ensure the site functions correctly. No cookie consent banner is required as we do not engage in cookie-based tracking.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Changes to this policy</h2>
+      <p>We may update this policy as our services evolve. Any significant changes will be reflected with an updated date at the top of this page. Continued use of our website after changes constitutes acceptance of the revised policy.</p>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Contact</h2>
+      <p>For any privacy-related concerns or requests, reach us directly at <a href="mailto:contact.backofficeng@gmail.com" class="contact-link">contact.backofficeng@gmail.com</a>.</p>
+    </div>
+
+  </div>
+
+  <div class="divider"></div>
+  <div class="footer-wrap">
+    <div>
+      <p class="footer-logo">Back Office</p>
+      <p class="footer-tagline">We handle the rest.</p>
+    </div>
+    <div class="footer-contact">
+      <a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a>
+    </div>
+    <div class="footer-note">
+      <p>Lagos, Nigeria</p>
+      <p>Remote ready. Travel ready.</p>
+    </div>
+  </div>
+
+</body>
+</html>
