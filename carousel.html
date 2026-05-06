@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Back Office — Instagram Carousel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #070707;
+      --surface: #0f0f0f;
+      --border: #1a1a1a;
+      --border-light: #252525;
+      --text: #f0ede6;
+      --text-muted: #5a5a5a;
+      --text-dim: #2e2e2e;
+      --serif: 'Cormorant Garamond', Georgia, serif;
+      --sans: 'DM Sans', system-ui, sans-serif;
+    }
+
+    @keyframes iridescent {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      font-family: var(--sans);
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 2rem;
+      gap: 2.5rem;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      color: #555;
+      font-weight: 300;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    /* Each slide is 1080×1080 scaled to 540×540 for preview */
+    .slide {
+      width: 540px;
+      height: 540px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 52px;
+    }
+
+    /* ── RAINBOW UTILITIES ── */
+    .r-text {
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .r-line {
+      height: 2px;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .r-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      display: inline-block;
+    }
+
+    .logo-mark {
+      font-family: var(--serif);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #333;
+    }
+
+    .slide-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #2a2a2a;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE 1 — HOOK
+    ───────────────────────────────────────── */
+    #s1 .slide-inner {
+      justify-content: space-between;
+    }
+
+    #s1 .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    #s1 .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #s1 .eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      margin-bottom: 2rem;
+    }
+
+    #s1 h2 {
+      font-family: var(--serif);
+      font-size: 3.6rem;
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--text);
+    }
+
+    #s1 h2 em { font-style: italic; }
+
+    #s1 .sub {
+      margin-top: 1.6rem;
+      font-size: 0.9rem;
+      color: #3a3a3a;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+
+    #s1 .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    #s1 .swipe-hint {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #2a2a2a;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE 2 — PAIN POINT
+    ───────────────────────────────────────── */
+    #s2 .slide-inner {
+      justify-content: space-between;
+    }
+
+    #s2 .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s2 .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.4rem;
+    }
+
+    #s2 .item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    #s2 .item-text {
+      font-family: var(--serif);
+      font-size: 1.55rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    #s2 .item-sub {
+      font-size: 0.75rem;
+      color: #333;
+      margin-top: 0.2rem;
+    }
+
+    #s2 .dot-col {
+      padding-top: 0.35rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    #s2 .dot-col .connector {
+      width: 1px;
+      height: 28px;
+      background: #1e1e1e;
+      margin-top: 6px;
+    }
+
+    #s2 .tagline {
+      font-family: var(--serif);
+      font-size: 0.9rem;
+      font-style: italic;
+      color: #2e2e2e;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE 3 — TWIST
+    ───────────────────────────────────────── */
+    #s3 .slide-inner {
+      justify-content: space-between;
+    }
+
+    #s3 .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s3 .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #s3 .big-q {
+      font-family: var(--serif);
+      font-size: 5.5rem;
+      font-weight: 300;
+      color: #161616;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    #s3 h2 {
+      font-family: var(--serif);
+      font-size: 2.6rem;
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    #s3 h2 em { font-style: italic; }
+
+    #s3 .note {
+      margin-top: 1.6rem;
+      font-size: 0.82rem;
+      color: #353535;
+      line-height: 1.75;
+      max-width: 360px;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE 4 — THE ROSTER
+    ───────────────────────────────────────── */
+    #s4 .slide-inner {
+      justify-content: space-between;
+    }
+
+    #s4 .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s4 .label {
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      margin-bottom: 1.6rem;
+    }
+
+    #s4 .roster {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      flex: 1;
+    }
+
+    #s4 .role {
+      border-top: 1px solid #161616;
+      padding: 0.9rem 0 0.9rem 0;
+    }
+
+    #s4 .role:nth-child(odd) {
+      padding-right: 1.5rem;
+      border-right: 1px solid #161616;
+    }
+
+    #s4 .role:nth-child(even) {
+      padding-left: 1.5rem;
+    }
+
+    #s4 .role-name {
+      font-family: var(--serif);
+      font-size: 1.18rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    #s4 .role-for {
+      font-size: 0.68rem;
+      color: #2e2e2e;
+      margin-top: 0.3rem;
+    }
+
+    #s4 .cta-note {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #282828;
+      margin-top: 0.5rem;
+    }
+
+    /* ─────────────────────────────────────────
+       SLIDE 5 — CTA
+    ───────────────────────────────────────── */
+    #s5 .slide-inner {
+      justify-content: space-between;
+    }
+
+    #s5 .top {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    #s5 .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    #s5 h2 {
+      font-family: var(--serif);
+      font-size: 3.8rem;
+      font-weight: 400;
+      line-height: 1.05;
+      color: var(--text);
+    }
+
+    #s5 h2 em { font-style: italic; }
+
+    #s5 .details {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    #s5 .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.82rem;
+      color: #383838;
+    }
+
+    #s5 .bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    #s5 .email {
+      font-family: var(--serif);
+      font-size: 1rem;
+      color: #353535;
+      font-style: italic;
+    }
+
+    /* Decorative bg noise texture via SVG */
+    .noise {
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* ── PRINT / EXPORT HINT ── */
+    .page-label {
+      font-family: var(--sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #444;
+      text-align: center;
+    }
+
+    .grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .slide-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Back Office — Instagram Carousel · 5 Slides</h1>
+
+  <div class="grid">
+
+    <!-- ══════════════════════════════════════
+         SLIDE 1 — HOOK
+    ══════════════════════════════════════ -->
+    <div class="slide-wrap">
+      <div class="page-label">Slide 01 — Hook</div>
+      <div class="slide" id="s1">
+        <div class="noise"></div>
+        <div class="slide-inner">
+          <div class="top">
+            <span class="logo-mark">Back Office</span>
+            <span class="slide-num">01 / 05</span>
+          </div>
+
+          <div class="main">
+            <p class="eyebrow">This is not a sales pitch.</p>
+            <h2>
+              You are doing<br>
+              <em class="r-text">too much.</em>
+            </h2>
+            <p class="sub">And you've known it for a while.</p>
+          </div>
+
+          <div class="bottom">
+            <div class="r-line" style="width: 40px;"></div>
+            <span class="swipe-hint">Swipe →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 2 — PAIN POINT
+    ══════════════════════════════════════ -->
+    <div class="slide-wrap">
+      <div class="page-label">Slide 02 — Relatable Chaos</div>
+      <div class="slide" id="s2">
+        <div class="noise"></div>
+        <div class="slide-inner">
+          <div class="top">
+            <span class="logo-mark">Back Office</span>
+            <span class="slide-num">02 / 05</span>
+          </div>
+
+          <div class="main">
+            <div class="item">
+              <div class="dot-col">
+                <span class="r-dot"></span>
+                <span class="connector"></span>
+              </div>
+              <div>
+                <p class="item-text">The inbox nobody's touched in 3 days.</p>
+                <p class="item-sub">That's your inbox.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot-col">
+                <span class="r-dot"></span>
+                <span class="connector"></span>
+              </div>
+              <div>
+                <p class="item-text">The booking you nearly forgot.</p>
+                <p class="item-sub">Nearly.</p>
+              </div>
+            </div>
+            <div class="item">
+              <div class="dot-col">
+                <span class="r-dot"></span>
+              </div>
+              <div>
+                <p class="item-text">The trip no one has planned yet.</p>
+                <p class="item-sub">Also you.</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="tagline">You're not disorganised. You're just outnumbered.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 3 — TWIST / REFRAME
+    ══════════════════════════════════════ -->
+    <div class="slide-wrap">
+      <div class="page-label">Slide 03 — The Reframe</div>
+      <div class="slide" id="s3">
+        <div class="noise"></div>
+        <div class="slide-inner">
+          <div class="top">
+            <span class="logo-mark">Back Office</span>
+            <span class="slide-num">03 / 05</span>
+          </div>
+
+          <div class="main">
+            <p class="big-q">"</p>
+            <h2>
+              What if that whole<br>
+              list just…<br>
+              <em class="r-text">disappeared?</em>
+            </h2>
+            <p class="note">Not because you hustled harder. Because the right person was handling it — while you did the thing only you can do.</p>
+          </div>
+
+          <div class="r-line" style="width: 32px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 4 — THE ROSTER
+    ══════════════════════════════════════ -->
+    <div class="slide-wrap">
+      <div class="page-label">Slide 04 — What We Do</div>
+      <div class="slide" id="s4">
+        <div class="noise"></div>
+        <div class="slide-inner">
+          <div class="top">
+            <span class="logo-mark">Back Office</span>
+            <span class="slide-num">04 / 05</span>
+          </div>
+
+          <p class="label">We match you to exactly the right person.</p>
+
+          <div class="roster">
+            <div class="role">
+              <p class="role-name">Executive VA</p>
+              <p class="role-for">Founders · C-suite</p>
+            </div>
+            <div class="role">
+              <p class="role-name">Creative Ops VA</p>
+              <p class="role-for">Artists · Creators</p>
+            </div>
+            <div class="role">
+              <p class="role-name">Event &amp; Project VA</p>
+              <p class="role-for">Show runners · Leads</p>
+            </div>
+            <div class="role">
+              <p class="role-name">Research VA</p>
+              <p class="role-for">Investors · Strategists</p>
+            </div>
+            <div class="role">
+              <p class="role-name">Personal Life VA</p>
+              <p class="role-for">Anyone with a full plate</p>
+            </div>
+            <div class="role">
+              <p class="role-name">Tech Enabled VA</p>
+              <p class="role-for">Operators · Builders</p>
+            </div>
+          </div>
+
+          <p class="cta-note">Lagos · Abuja · Remote · On-site</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         SLIDE 5 — CTA
+    ══════════════════════════════════════ -->
+    <div class="slide-wrap">
+      <div class="page-label">Slide 05 — CTA</div>
+      <div class="slide" id="s5">
+        <div class="noise"></div>
+        <div class="slide-inner">
+          <div class="top">
+            <span class="logo-mark">Back Office</span>
+            <span class="slide-num">05 / 05</span>
+          </div>
+
+          <div class="main">
+            <h2>
+              We handle<br>
+              <em class="r-text">the rest.</em>
+            </h2>
+            <div class="details">
+              <div class="detail-row">
+                <span class="r-dot" style="width:6px;height:6px;flex-shrink:0;"></span>
+                <span>Tell us your situation — we match you in 48hrs.</span>
+              </div>
+              <div class="detail-row">
+                <span class="r-dot" style="width:6px;height:6px;flex-shrink:0;"></span>
+                <span>No long forms. No guessing. Just the right fit.</span>
+              </div>
+              <div class="detail-row">
+                <span class="r-dot" style="width:6px;height:6px;flex-shrink:0;"></span>
+                <span>Link in bio → or DM us directly.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bottom">
+            <p class="email">contact.backofficeng@gmail.com</p>
+            <div class="r-line" style="width: 32px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
