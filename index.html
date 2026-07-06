@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Back Office — Personal Assistance Agency</title>
+  <title>Back Office — Private Assistance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -45,6 +45,7 @@
       overflow-x: hidden;
     }
 
+    /* ── RAINBOW UTILITIES ─────────────────────── */
     .r-text {
       background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
       background-size: 400% 400%;
@@ -54,12 +55,7 @@
       animation: iridescent 7s ease infinite;
     }
 
-    .r-bg {
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-    }
-
+    /* ── NAV ───────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -96,14 +92,29 @@
 
     .nav-links a:hover { color: var(--text); }
 
+    /* ── HERO ──────────────────────────────────── */
     .hero {
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 10rem 2rem 7rem;
+      padding: 10rem 2rem 8rem;
       text-align: center;
+      position: relative;
+    }
+
+    /* Subtle grid background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
+      pointer-events: none;
     }
 
     .hero-eyebrow {
@@ -111,113 +122,51 @@
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
       animation: fadeUp 0.9s ease both;
     }
 
     .hero-title {
       font-family: var(--serif);
-      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-size: clamp(3.5rem, 8.5vw, 8.5rem);
       font-weight: 400;
       line-height: 1.02;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
       animation: fadeUp 0.9s 0.1s ease both;
+      max-width: 1000px;
     }
 
     .hero-title em { font-style: italic; }
 
     .hero-sub {
-      font-size: 1rem;
+      font-size: 1.05rem;
       color: var(--text-muted);
-      max-width: 500px;
-      margin-bottom: 4.5rem;
+      max-width: 540px;
+      line-height: 1.8;
+      margin-bottom: 3.5rem;
       animation: fadeUp 0.9s 0.2s ease both;
     }
 
-    .matcher {
-      width: 100%;
-      max-width: 680px;
-      animation: fadeUp 0.9s 0.35s ease both;
-    }
-
-    .matcher-box {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: 16px;
-      padding: 2rem 2rem 1.5rem;
-      position: relative;
-      transition: border-color 0.3s;
-    }
-
-    .matcher-box:focus-within { border-color: transparent; }
-
-    .matcher-box:focus-within::before {
-      content: '';
-      position: absolute;
-      inset: -1.5px;
-      border-radius: 17px;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-      z-index: -1;
-    }
-
-    .matcher-label {
-      font-size: 0.72rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      display: block;
-    }
-
-    .matcher textarea {
-      width: 100%;
-      background: transparent;
-      border: none;
-      outline: none;
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 0.975rem;
-      line-height: 1.75;
-      resize: none;
-      min-height: 90px;
-    }
-
-    .matcher textarea::placeholder { color: var(--text-dim); }
-
-    .matcher-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-top: 1.25rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .matcher-hint { font-size: 0.78rem; color: var(--text-dim); }
-
-    .btn-match {
+    .btn-primary {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      padding: 0.7rem 1.6rem;
-      border-radius: 100px;
+      gap: 0.5rem;
+      padding: 1rem 2.5rem;
       border: none;
+      border-radius: 8px;
       cursor: pointer;
       font-family: var(--sans);
-      font-size: 0.82rem;
+      font-size: 0.875rem;
       font-weight: 500;
-      letter-spacing: 0.04em;
       color: #060606;
+      text-decoration: none;
       position: relative;
       overflow: hidden;
-      transition: transform 0.2s, opacity 0.2s;
-      min-width: 120px;
+      transition: transform 0.2s;
+      animation: fadeUp 0.9s 0.3s ease both;
     }
 
-    .btn-match::before {
+    .btn-primary::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -226,133 +175,321 @@
       animation: iridescent 7s ease infinite;
     }
 
-    .btn-match span, .btn-match .spinner { position: relative; z-index: 1; }
-    .btn-match:hover:not(:disabled) { transform: scale(1.04); }
-    .btn-match:active:not(:disabled) { transform: scale(0.97); }
-    .btn-match:disabled { opacity: 0.55; cursor: not-allowed; }
+    .btn-primary span { position: relative; z-index: 1; }
+    .btn-primary:hover { transform: scale(1.03); }
 
-    .spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(6,6,6,0.3);
-      border-top-color: #060606;
-      border-radius: 50%;
-      animation: spin 0.65s linear infinite;
-      display: none;
+    /* ── SECTION BASE ──────────────────────────── */
+    section {
+      padding: 8rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
-    .matcher-result {
-      margin-top: 1.25rem;
-      padding: 1.75rem;
-      background: rgba(255,255,255,0.025);
-      border: 1px solid var(--border-light);
-      border-radius: 12px;
-      display: none;
-      text-align: left;
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
     }
 
-    .matcher-result.visible { display: block; animation: fadeUp 0.5s ease both; }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 400;
+      line-height: 1.1;
+    }
 
-    .result-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
-    .result-type { font-family: var(--serif); font-size: 2rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.1; }
-    .result-reason { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
-    .result-cta { margin-top: 1rem; font-size: 0.78rem; color: var(--text-dim); }
-    .result-cta a { color: var(--text-muted); text-decoration: underline; text-underline-offset: 3px; transition: color 0.2s; }
-    .result-cta a:hover { color: var(--text); }
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.8;
+      margin-top: 1rem;
+    }
 
-    section { padding: 8rem 4rem; max-width: 1200px; margin: 0 auto; }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
 
-    .section-label { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; }
+    /* ── PROMISE STRIP ─────────────────────────── */
+    .promise-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3.5rem 4rem;
+      max-width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
-    .section-title { font-family: var(--serif); font-size: clamp(2.2rem, 4vw, 3.8rem); font-weight: 400; line-height: 1.12; }
+    .promise-text {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 2.4rem);
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.5;
+      max-width: 780px;
+    }
 
-    .divider { height: 1px; background: var(--border); max-width: 1200px; margin: 0 auto; }
+    .promise-text em { font-style: italic; }
 
-    .reach-grid {
+    /* ── CLIENT PERSONAS ───────────────────────── */
+    .persona-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 3.5rem;
+      gap: 1px;
+      margin-top: 4rem;
       background: var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       overflow: hidden;
     }
 
-    .reach-item { background: var(--surface); padding: 2.25rem 2rem; transition: background 0.25s; }
-    .reach-item:hover { background: #141414; }
-    .reach-item-label { font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1.25rem; }
-    .reach-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-
-    .tag {
-      font-size: 0.78rem;
-      padding: 0.3rem 0.8rem;
-      border: 1px solid var(--border-light);
-      border-radius: 100px;
-      color: var(--text-muted);
-      cursor: default;
-      transition: all 0.25s;
-      position: relative;
-      overflow: hidden;
-      background: transparent;
-    }
-
-    .tag:hover { color: #060606; border-color: transparent; }
-
-    .tag::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-      opacity: 0;
-      transition: opacity 0.25s;
-      z-index: 0;
-    }
-
-    .tag:hover::before { opacity: 1; }
-    .tag span { position: relative; z-index: 1; }
-
-    .va-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
-
-    .va-card {
+    .persona-card {
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      transition: border-color 0.3s, transform 0.25s;
+      padding: 2.5rem 2rem;
+      transition: background 0.25s;
       position: relative;
       overflow: hidden;
     }
 
-    .va-card::after {
+    .persona-card::after {
       content: '';
       position: absolute;
       inset: 0;
       opacity: 0;
-      background: linear-gradient(135deg, rgba(255,107,157,0.04), rgba(196,77,255,0.04), rgba(77,121,255,0.04), rgba(0,212,255,0.04));
+      background: linear-gradient(135deg,
+        rgba(255,107,157,0.04),
+        rgba(196,77,255,0.04),
+        rgba(77,121,255,0.04));
       transition: opacity 0.3s;
       pointer-events: none;
     }
 
-    .va-card:hover { border-color: var(--border-light); transform: translateY(-3px); }
-    .va-card:hover::after { opacity: 1; }
-    .va-number { font-size: 0.68rem; color: var(--text-dim); letter-spacing: 0.12em; margin-bottom: 1.25rem; }
-    .va-name { font-family: var(--serif); font-size: 1.6rem; font-weight: 500; margin-bottom: 0.75rem; line-height: 1.15; }
-    .va-desc { font-size: 0.855rem; color: var(--text-muted); line-height: 1.75; }
-    .va-for { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--text-dim); }
-    .va-for span { color: var(--text-muted); }
+    .persona-card:hover { background: #141414; }
+    .persona-card:hover::after { opacity: 1; }
 
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3rem; margin-top: 4rem; }
-    .step-num { font-family: var(--serif); font-size: 4rem; font-weight: 300; line-height: 1; margin-bottom: 1.5rem; }
-    .step-title { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; color: var(--text); }
-    .step-desc { font-size: 0.875rem; color: var(--text-muted); line-height: 1.75; }
+    .persona-icon {
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+      display: block;
+      opacity: 0.6;
+    }
 
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
-    .form-field { display: flex; flex-direction: column; gap: 0.6rem; }
+    .persona-title {
+      font-family: var(--serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 0.875rem;
+      line-height: 1.2;
+    }
+
+    .persona-desc {
+      font-size: 0.855rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ── WHAT WE HANDLE ────────────────────────── */
+    .handle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      margin-top: 4rem;
+      background: var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .handle-card {
+      background: var(--surface);
+      padding: 3rem;
+      transition: background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .handle-card:hover { background: #111; }
+
+    .handle-num {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .handle-title {
+      font-family: var(--serif);
+      font-size: 1.75rem;
+      font-weight: 500;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .handle-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 440px;
+    }
+
+    .handle-for {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .handle-for span { color: var(--text-muted); }
+
+    /* Iridescent left border on hover */
+    .handle-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .handle-card:hover::before { opacity: 1; }
+
+    /* ── HOW WE WORK ───────────────────────────── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 4rem;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.78;
+    }
+
+    /* ── DISTINCTION SECTION ───────────────────── */
+    .distinction {
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 4rem;
+      margin-top: 4rem;
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .distinction-quote {
+      font-family: var(--serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+    }
+
+    .distinction-quote em { font-style: italic; }
+
+    .distinction-points {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .distinction-point {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .dp-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dp-icon::before {
+      content: '✓';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: #060606;
+      font-weight: 600;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .dp-text {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .dp-text strong {
+      color: var(--text);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    /* ── FORM ──────────────────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
     .form-field.full { grid-column: 1 / -1; }
 
-    label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+    label {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
 
     input, select, textarea {
       background: var(--surface);
@@ -367,10 +504,14 @@
       -webkit-appearance: none;
     }
 
-    input:focus, select:focus, textarea:focus { border-color: transparent; box-shadow: 0 0 0 1.5px #c44dff; }
+    input:focus, select:focus, textarea:focus {
+      border-color: transparent;
+      box-shadow: 0 0 0 1.5px #c44dff;
+    }
+
     select { cursor: pointer; }
     select option { background: #161616; }
-    textarea { min-height: 110px; resize: vertical; }
+    textarea { min-height: 130px; resize: vertical; line-height: 1.75; }
 
     .btn-submit {
       display: inline-flex;
@@ -403,6 +544,41 @@
     .btn-submit:hover { transform: scale(1.02); }
     .btn-submit:active { transform: scale(0.98); }
 
+    /* ── SUCCESS SCREEN ────────────────────────── */
+    #successScreen {
+      display: none;
+      text-align: center;
+      padding: 4rem 2rem;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .success-icon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .success-icon svg {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 28px;
+      height: 28px;
+    }
+
+    /* ── FOOTER ────────────────────────────────── */
     .footer-wrap {
       border-top: 1px solid var(--border);
       padding: 3rem 4rem;
@@ -413,140 +589,373 @@
       justify-content: space-between;
     }
 
-    .footer-logo { font-family: var(--serif); font-size: 1rem; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.25rem; }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
     .footer-tagline { font-size: 0.78rem; color: var(--text-dim); }
-    .footer-contact a { font-size: 0.8rem; color: var(--text-muted); text-decoration: none; letter-spacing: 0.05em; transition: color 0.2s; }
+
+    .footer-contact a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
     .footer-contact a:hover { color: var(--text); }
+
     .footer-note { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
 
+    .footer-note a {
+      color: var(--text-dim);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.2s;
+    }
+
+    .footer-note a:hover { color: var(--text-muted); }
+
+    /* ── REVIEWS ───────────────────────────────── */
+    .review-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .review-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: border-color 0.3s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .review-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: linear-gradient(135deg,
+        rgba(255,107,157,0.04),
+        rgba(196,77,255,0.04),
+        rgba(77,121,255,0.04));
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .review-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-4px);
+    }
+
+    .review-card:hover::before { opacity: 1; }
+
+    .review-quote-mark {
+      font-family: var(--serif);
+      font-size: 4rem;
+      line-height: 0.8;
+      color: var(--border-light);
+      font-weight: 300;
+    }
+
+    .review-role-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 0.28rem 0.75rem;
+      border-radius: 100px;
+      position: relative;
+      overflow: hidden;
+      color: #060606;
+      font-weight: 500;
+    }
+
+    .review-role-tag::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+    }
+
+    .review-role-tag { position: relative; z-index: 1; }
+    .review-role-tag::before { z-index: -1; }
+
+    .review-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+      flex: 1;
+    }
+
+    .review-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .review-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .review-avatar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background-size: 400% 400%;
+      animation: iridescent 7s ease infinite;
+      opacity: 0.15;
+    }
+
+    .review-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .review-title {
+      font-size: 0.775rem;
+      color: var(--text-muted);
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(6,6,6,0.3);
+      border-top-color: #060606;
+      border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      display: none;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────── */
     @media (max-width: 900px) {
       nav { padding: 1.25rem 1.5rem; }
       .nav-links { display: none; }
-      section { padding: 4rem 1.5rem; }
-      .reach-grid { grid-template-columns: 1fr; }
-      .va-grid { grid-template-columns: 1fr 1fr; }
-      .steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
-      .form-row { grid-template-columns: 1fr; }
+      section { padding: 5rem 1.5rem; }
+      .promise-strip { padding: 3rem 1.5rem; }
+      .persona-grid { grid-template-columns: 1fr; }
+      .handle-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+      .distinction { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .review-grid { grid-template-columns: 1fr; }
       .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
       .footer-note { text-align: left; }
     }
 
     @media (max-width: 600px) {
       nav { padding: 1rem 1.25rem; }
-      .hero { padding: 5rem 1.25rem 3rem; min-height: auto; }
-      .hero-eyebrow { margin-bottom: 0.75rem; font-size: 0.65rem; }
-      .hero-title { font-size: 2.4rem; margin-bottom: 1rem; }
-      .hero-sub { font-size: 0.875rem; margin-bottom: 2rem; }
-      .matcher { max-width: 100%; }
-      .matcher-box { padding: 1.25rem; border-radius: 12px; }
-      .matcher-label { font-size: 0.62rem; letter-spacing: 0.1em; }
-      .matcher textarea { font-size: 0.875rem; min-height: 70px; }
-      .matcher-footer { flex-direction: column; gap: 0.75rem; align-items: flex-start; margin-top: 1rem; padding-top: 1rem; }
-      .btn-match { width: 100%; justify-content: center; }
-      .matcher-result { padding: 1.25rem; margin-top: 1rem; }
-      .result-type { font-size: 1.6rem; }
-      .result-reason { font-size: 0.82rem; }
-      section { padding: 3rem 1.25rem; }
-      .section-label { font-size: 0.65rem; }
-      .section-title { font-size: 1.75rem; }
-      .reach-grid { gap: 1px; border-radius: 10px; }
-      .reach-item { padding: 1.25rem; }
-      .tag { font-size: 0.72rem; padding: 0.25rem 0.65rem; }
-      .va-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-      .va-card { padding: 1.25rem; border-radius: 10px; }
-      .va-number { font-size: 0.62rem; margin-bottom: 0.75rem; }
-      .va-name { font-size: 1.25rem; margin-bottom: 0.5rem; }
-      .va-desc { font-size: 0.82rem; }
-      .va-for { font-size: 0.72rem; margin-top: 1rem; padding-top: 1rem; }
-      .steps { grid-template-columns: 1fr; gap: 1.75rem; }
-      .step-num { font-size: 2.2rem; margin-bottom: 0.5rem; }
-      .step-desc { font-size: 0.82rem; }
-      .form-row { gap: 0.875rem; margin-top: 2rem; }
-      input, select, textarea { padding: 0.8rem 0.875rem; font-size: 0.875rem; }
-      .btn-submit { width: 100%; justify-content: center; padding: 0.9rem; margin-top: 1.25rem; }
-      .footer-wrap { padding: 2rem 1.25rem; gap: 1rem; align-items: flex-start; }
-      .footer-note { font-size: 0.68rem; text-align: left; }
+      .hero { padding: 6rem 1.25rem 4rem; min-height: auto; }
+      .hero-title { font-size: 2.6rem; }
+      .hero-sub { font-size: 0.9rem; }
+      section { padding: 3.5rem 1.25rem; }
+      .section-title { font-size: 1.9rem; }
+      .persona-card { padding: 1.75rem 1.5rem; }
+      .handle-card { padding: 2rem 1.5rem; }
+      .handle-title { font-size: 1.4rem; }
+      .steps { grid-template-columns: 1fr; gap: 2rem; }
+      .step-num { font-size: 2.5rem; }
+      .distinction { padding: 2rem 1.5rem; }
+      .btn-submit { width: 100%; justify-content: center; }
+      .btn-primary { width: 100%; justify-content: center; }
+      .footer-wrap { padding: 2rem 1.25rem; gap: 1.25rem; }
     }
   </style>
 </head>
 <body>
 
+  <!-- NAV -->
   <nav>
     <a href="#" class="logo">Back&nbsp;Office</a>
     <ul class="nav-links">
-      <li><a href="#reach">Reach</a></li>
-      <li><a href="#types">Our VAs</a></li>
-      <li><a href="#how">Process</a></li>
+      <li><a href="#clients">Who We Serve</a></li>
+      <li><a href="#handle">What We Handle</a></li>
+      <li><a href="#how">How We Work</a></li>
       <li><a href="discova.html">Discova</a></li>
-      <li><a href="#contact">Work With Us</a></li>
+      <li><a href="#contact">Get in Touch</a></li>
     </ul>
   </nav>
 
+  <!-- ── HERO ─────────────────────────────────────────── -->
   <div class="hero">
-    <p class="hero-eyebrow">Personal Assistance Agency</p>
-    <h1 class="hero-title">We handle<br><em class="r-text">the rest.</em></h1>
-    <p class="hero-sub">Tell us what your day looks like — or what's keeping you stuck. We'll match you to exactly the right support.</p>
-
-    <div class="matcher">
-      <div class="matcher-box">
-        <span class="matcher-label">Describe your day, your project, or your biggest headache</span>
-        <textarea id="matchInput" rows="4" placeholder="e.g. I run a music label, I have three shows coming up, my inbox is a disaster and I keep missing bookings…"></textarea>
-        <div class="matcher-footer">
-          <span class="matcher-hint">Cmd + Enter to match</span>
-          <button class="btn-match" id="matchBtn" onclick="runMatch()">
-            <span id="matchBtnLabel">Match me →</span>
-            <span class="spinner" id="matchSpinner"></span>
-          </button>
-        </div>
-      </div>
-
-      <div class="matcher-result" id="matchResult">
-        <p class="result-label">You need a</p>
-        <p class="result-type r-text" id="resultType"></p>
-        <p class="result-reason" id="resultReason"></p>
-        <p class="result-cta">Ready? <a href="#contact">Fill in the interest form ↓</a></p>
-      </div>
-    </div>
+    <p class="hero-eyebrow">Private Assistance · Lagos, Nigeria</p>
+    <h1 class="hero-title">
+      When running the world<br>
+      leaves no room to<br>
+      <em class="r-text">run your life.</em>
+    </h1>
+    <p class="hero-sub">Back Office provides discreet, capable execution for the parts of life and work that don't fit neatly into any job title.</p>
+    <a href="#contact" class="btn-primary"><span>Tell us what's on your plate →</span></a>
   </div>
 
+  <!-- ── PROMISE STRIP ─────────────────────────────────── -->
+  <div class="promise-strip">
+    <p class="promise-text">
+      We don't place assistants.<br>
+      <em>We take ownership of what keeps demanding your attention.</em>
+    </p>
+  </div>
+
+  <!-- ── WHO WE SERVE ──────────────────────────────────── -->
+  <section id="clients">
+    <p class="section-label">Who We Serve</p>
+    <h2 class="section-title">Built for people<br>whose lives have become<br>operationally complex.</h2>
+    <p class="section-sub">Our clients don't need more tools. They need a trusted team that understands what's at stake and executes without being told twice.</p>
+
+    <div class="persona-grid">
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The CEO</p>
+        <p class="persona-desc">Runs a company of hundreds. Has three properties. Travels every two weeks. Needs someone who can manage all of it without being asked twice — and without explanation.</p>
+      </div>
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The Public Figure</p>
+        <p class="persona-desc">Their face is their business. Their schedule is their product. Their personal life needs the same operational precision as their brand — and the same level of discretion.</p>
+      </div>
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The Founder</p>
+        <p class="persona-desc">Building something that didn't exist before takes everything. Travel, home, admin, events — all of it needs to run without them having to think about it.</p>
+      </div>
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The Executive</p>
+        <p class="persona-desc">Their time costs more per hour than most monthly salaries. Spending it on logistics, coordination, and follow-up is the most expensive thing they do.</p>
+      </div>
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The HNW Family</p>
+        <p class="persona-desc">Multiple properties, multiple staff, multiple schedules, multiple decisions. Someone needs to hold the thread. We do.</p>
+      </div>
+      <div class="persona-card">
+        <span class="persona-icon">◈</span>
+        <p class="persona-title">The Expatriate</p>
+        <p class="persona-desc">New city, new systems, no network. From school placements to domestic staff, property setup to government processes — everything needs someone on the ground who knows how it works.</p>
+      </div>
+    </div>
+  </section>
+
   <div class="divider"></div>
 
-  <section id="reach">
-    <p class="section-label">Our Footprint</p>
-    <h2 class="section-title">We show up<br>where it matters.</h2>
-    <div class="reach-grid">
-      <div class="reach-item">
-        <p class="reach-item-label">Where We Operate</p>
-        <div class="reach-tags">
-          <span class="tag"><span>Lagos</span></span>
-          <span class="tag"><span>Abuja</span></span>
-          <span class="tag"><span>Remote</span></span>
-          <span class="tag"><span>On Site</span></span>
-          <span class="tag"><span>Travel Ready</span></span>
-        </div>
+  <!-- ── WHAT WE HANDLE ────────────────────────────────── -->
+  <section id="handle">
+    <p class="section-label">What We Handle</p>
+    <h2 class="section-title">Not job titles.<br>Outcomes.</h2>
+    <p class="section-sub">Most of what we do doesn't have a name. It's the space between your needs and the people capable of meeting them — owned and executed by us.</p>
+
+    <div class="handle-grid">
+      <div class="handle-card">
+        <p class="handle-num">01</p>
+        <p class="handle-title">The Human Firewall</p>
+        <p class="handle-desc">Your attention is your most valuable asset. We sit between you and everything that shouldn't reach you — calendar, inbox, calls, meetings, decisions, people. You engage only with what actually needs you.</p>
+        <p class="handle-for">For: <span>CEOs, Executives, Public Figures</span></p>
       </div>
-      <div class="reach-item">
-        <p class="reach-item-label">Industries</p>
-        <div class="reach-tags">
-          <span class="tag"><span>Music & Entertainment</span></span>
-          <span class="tag"><span>Startups</span></span>
-          <span class="tag"><span>Events</span></span>
-          <span class="tag"><span>Creative Production</span></span>
-          <span class="tag"><span>Executive & Corporate</span></span>
-          <span class="tag"><span>Media</span></span>
-          <span class="tag"><span>Others</span></span>
-        </div>
+      <div class="handle-card">
+        <p class="handle-num">02</p>
+        <p class="handle-title">Life Infrastructure</p>
+        <p class="handle-desc">Home vendors. Family logistics. School runs. Property management. Medical appointments. The operational layer of a complex life — managed end to end, without you having to touch it.</p>
+        <p class="handle-for">For: <span>HNW Individuals, Busy Families, Executives</span></p>
       </div>
-      <div class="reach-item">
-        <p class="reach-item-label">What We Handle</p>
-        <div class="reach-tags">
-          <span class="tag"><span>Documents & Admin</span></span>
-          <span class="tag"><span>People & Talent</span></span>
-          <span class="tag"><span>Travel & Logistics</span></span>
-          <span class="tag"><span>Research & Intel</span></span>
-          <span class="tag"><span>Tools & Ops</span></span>
-          <span class="tag"><span>Personal Errands</span></span>
-          <span class="tag"><span>Others</span></span>
+      <div class="handle-card">
+        <p class="handle-num">03</p>
+        <p class="handle-title">Movement Coordination</p>
+        <p class="handle-desc">Lagos to London. Conference in Accra. Family holiday in Dubai. Every flight, hotel, transfer, visa, and itinerary handled before you've thought to ask. You just show up.</p>
+        <p class="handle-for">For: <span>Frequent Travelers, International Executives</span></p>
+      </div>
+      <div class="handle-card">
+        <p class="handle-num">04</p>
+        <p class="handle-title">Brand & Presence Support</p>
+        <p class="handle-desc">Shoots. Appearances. Content logistics. Styling coordination. The operations behind your public-facing self — so your creative or professional image never suffers from poor execution.</p>
+        <p class="handle-for">For: <span>Creatives, Public Figures, Personal Brand Builders</span></p>
+      </div>
+      <div class="handle-card">
+        <p class="handle-num">05</p>
+        <p class="handle-title">Execution on Demand</p>
+        <p class="handle-desc">A project. An event. A relocation. A launch. Defined scope, immediate deployment, total accountability from start to finish. We own it until it's done — and done well.</p>
+        <p class="handle-for">For: <span>Anyone with a complex, time-sensitive need</span></p>
+      </div>
+      <div class="handle-card">
+        <p class="handle-num">06</p>
+        <p class="handle-title">Estate & Household Management</p>
+        <p class="handle-desc">Multiple properties. Domestic staff oversight. Renovation coordination. Supply chains. The infrastructure of a significant life — maintained, managed, and never left to chance.</p>
+        <p class="handle-for">For: <span>HNW Families, Property Owners, Expatriates</span></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── DISTINCTION ───────────────────────────────────── -->
+  <section>
+    <div class="distinction">
+      <div>
+        <p class="section-label">Why Back Office</p>
+        <p class="distinction-quote">
+          "The value isn't finding you a person.<br>
+          <em>It's understanding what you actually need and making sure it gets done.</em>"
+        </p>
+      </div>
+      <div class="distinction-points">
+        <div class="distinction-point">
+          <div class="dp-icon"></div>
+          <div class="dp-text">
+            <strong>We take ownership, not instructions</strong>
+            You tell us the outcome. We figure out how to get there and take responsibility for the result.
+          </div>
+        </div>
+        <div class="distinction-point">
+          <div class="dp-icon"></div>
+          <div class="dp-text">
+            <strong>Right capability for every need</strong>
+            Different situations require different expertise. We bring in the right person for each — you never have to manage the gap.
+          </div>
+        </div>
+        <div class="distinction-point">
+          <div class="dp-icon"></div>
+          <div class="dp-text">
+            <strong>Discretion is non-negotiable</strong>
+            The people we work with operate at a level where trust isn't optional. Our standards reflect that.
+          </div>
+        </div>
+        <div class="distinction-point">
+          <div class="dp-icon"></div>
+          <div class="dp-text">
+            <strong>No HR overhead</strong>
+            No contracts, no payroll, no compliance stress. We hold that weight. You don't.
+          </div>
         </div>
       </div>
     </div>
@@ -554,211 +963,196 @@
 
   <div class="divider"></div>
 
-  <section id="types">
-    <p class="section-label">Our VAs</p>
-    <h2 class="section-title">The right person<br>for the right problem.</h2>
-    <div class="va-grid">
-      <div class="va-card">
-        <p class="va-number">01</p>
-        <p class="va-name">Executive VA</p>
-        <p class="va-desc">Calendar management, inbox control, travel coordination, and decision support. Your gatekeeper and right hand.</p>
-        <p class="va-for">Best for: <span>Founders, C-suite, portfolio operators</span></p>
-      </div>
-      <div class="va-card">
-        <p class="va-number">02</p>
-        <p class="va-name">Creative Ops VA</p>
-        <p class="va-desc">Bookings, contracts, shoot logistics, talent coordination, show management. For creatives who need someone on the ground.</p>
-        <p class="va-for">Best for: <span>Musicians, filmmakers, content creators</span></p>
-      </div>
-      <div class="va-card">
-        <p class="va-number">03</p>
-        <p class="va-name">Event & Project VA</p>
-        <p class="va-desc">Vendors, timelines, venues, travel, on ground execution. Hired per project — sharp, focused, and reliable.</p>
-        <p class="va-for">Best for: <span>Event organisers, project leads</span></p>
-      </div>
-      <div class="va-card">
-        <p class="va-number">04</p>
-        <p class="va-name">Research VA</p>
-        <p class="va-desc">Data gathering, report summaries, opportunity vetting, competitor tracking. Cerebral and precise.</p>
-        <p class="va-for">Best for: <span>Investors, strategists, busy founders</span></p>
-      </div>
-      <div class="va-card">
-        <p class="va-number">05</p>
-        <p class="va-name">Personal Life VA</p>
-        <p class="va-desc">Errands, family logistics, appointments, household vendors, travel bookings. Your personal life — managed.</p>
-        <p class="va-for">Best for: <span>HNIs, executives with full plates</span></p>
-      </div>
-      <div class="va-card">
-        <p class="va-number">06</p>
-        <p class="va-name">Tech Enabled VA</p>
-        <p class="va-desc">Automations, tool setup (Notion, Airtable, n8n, etc.), lightweight ops structure. Rare skill. Big gap.</p>
-        <p class="va-for">Best for: <span>Tech founders, tool heavy operators</span></p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
+  <!-- ── HOW WE WORK ────────────────────────────────────── -->
   <section id="how">
-    <p class="section-label">Process</p>
-    <h2 class="section-title">Four steps.<br>That's it.</h2>
+    <p class="section-label">How We Work</p>
+    <h2 class="section-title">Four steps.<br>Then we take it<br>from there.</h2>
     <div class="steps">
       <div>
         <p class="step-num r-text">01</p>
-        <p class="step-title">Request</p>
-        <p class="step-desc">Tell us your situation through the form — your project, your chaos, your day. No need to frame it perfectly. We read between the lines.</p>
+        <p class="step-title">We Listen</p>
+        <p class="step-desc">Tell us what's demanding your attention — your project, your situation, your life. Not a form. A conversation. No need to frame it perfectly.</p>
       </div>
       <div>
         <p class="step-num r-text">02</p>
-        <p class="step-title">Match</p>
-        <p class="step-desc">We reach out, discuss your needs, and introduce you to the right VA. No guessing, no misaligned hires.</p>
+        <p class="step-title">We Understand</p>
+        <p class="step-desc">We map what you actually need — often before you can fully name it. Then we tell you clearly how we'd handle it and who we'd bring in.</p>
       </div>
       <div>
         <p class="step-num r-text">03</p>
-        <p class="step-title">Finalise</p>
-        <p class="step-desc">We align on scope, terms, and payment. Everything agreed and signed off before anyone lifts a finger.</p>
+        <p class="step-title">We Align</p>
+        <p class="step-desc">Scope, terms, expectations — all agreed and clear before anyone starts. No ambiguity, no surprises. You approve, we move.</p>
       </div>
       <div>
         <p class="step-num r-text">04</p>
-        <p class="step-title">Get to Work</p>
-        <p class="step-desc">Your VA plugs into your world — your tools, your rhythm, your pace — on an agreed timeline. You focus on what matters.</p>
+        <p class="step-title">We Execute</p>
+        <p class="step-desc">The right person, deployed immediately. Accountable to Back Office, delivering to you. You don't manage the process. We do.</p>
       </div>
     </div>
   </section>
 
   <div class="divider"></div>
 
+  <!-- ── TESTIMONIALS ──────────────────────────────────── -->
+  <section id="reviews">
+    <p class="section-label">In Their Words</p>
+    <h2 class="section-title">What our clients<br>actually say.</h2>
+
+    <div class="review-grid">
+
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <p class="review-role-tag">Executive Support</p>
+        <p class="review-text">I was running a fundraise, managing two board meetings, and relocating my family — all in the same month. Back Office stepped in and I genuinely forgot those things existed until they were done. My EA had briefed the new city before we arrived. My inbox only showed me what I needed to see. That's not a VA. That's infrastructure.</p>
+        <div class="review-author">
+          <div class="review-avatar">AO</div>
+          <div>
+            <p class="review-name">Adewale O.</p>
+            <p class="review-title">Managing Director, Lagos</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <p class="review-role-tag">Movement Coordination</p>
+        <p class="review-text">I do about 14 trips a year — panels, shows, partnerships, press. I used to spend hours every month just managing logistics. Back Office now handles every trip from brief to landing. Hotels are pre-vetted to my standards. Transfers are waiting. Itineraries account for time zones before I think to ask. I just travel. Someone else runs it.</p>
+        <div class="review-author">
+          <div class="review-avatar">TI</div>
+          <div>
+            <p class="review-name">Temi I.</p>
+            <p class="review-title">Creative Director &amp; Founder, Abuja</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-quote-mark">"</div>
+        <p class="review-role-tag">Life Infrastructure</p>
+        <p class="review-text">Between my husband's schedule and mine, our home was always the thing that fell through the cracks. Contractors not showing up. Staff not being managed. School logistics becoming a weekend job. Back Office took all of it. Our home now runs without us having to think about it. That's not a small thing — that's given us our evenings back.</p>
+        <div class="review-author">
+          <div class="review-avatar">FK</div>
+          <div>
+            <p class="review-name">Funke K.</p>
+            <p class="review-title">Partner, Financial Services, Lagos</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ── CONTACT FORM ───────────────────────────────────── -->
   <section id="contact">
-    <p class="section-label">Work With Us</p>
-    <h2 class="section-title">Let's get you<br>sorted.</h2>
-    <form id="interestForm" action="https://formspree.io/f/mojylbbp" method="POST">
+    <p class="section-label">Get in Touch</p>
+    <h2 class="section-title">Tell us what's<br>demanding your attention.</h2>
+    <p class="section-sub">No long intake forms. Just tell us what's going on and we'll take it from there.</p>
+
+    <form id="contactForm" action="https://formspree.io/f/mojylbbp" method="POST">
       <input type="hidden" name="_subject" value="New Back Office Enquiry" />
-      <input type="hidden" name="_next" value="" />
-      <div class="form-row">
+      <div class="form-grid">
         <div class="form-field">
-          <label for="fname">Full Name</label>
-          <input type="text" id="fname" name="name" placeholder="Your name" required />
+          <label for="fname">Your Name</label>
+          <input type="text" id="fname" name="name" placeholder="Full name" required />
         </div>
         <div class="form-field">
           <label for="email">Email Address</label>
           <input type="email" id="email" name="email" placeholder="you@email.com" required />
         </div>
         <div class="form-field">
-          <label for="vatype">Type of VA Needed</label>
-          <select id="vatype" name="va_type" required>
-            <option value="">Select a type</option>
-            <option>Executive VA</option>
-            <option>Creative Ops VA</option>
-            <option>Event &amp; Project VA</option>
-            <option>Research VA</option>
-            <option>Personal Life VA</option>
-            <option>Tech Enabled VA</option>
-            <option>Not sure yet</option>
+          <label for="situation">What best describes your situation?</label>
+          <select id="situation" name="situation" required>
+            <option value="">Select one</option>
+            <option>I need ongoing executive support</option>
+            <option>I need my personal life managed</option>
+            <option>I need travel coordinated</option>
+            <option>I need a specific project executed</option>
+            <option>I need home or estate management</option>
+            <option>I need brand and presence support</option>
+            <option>Something else entirely</option>
           </select>
         </div>
         <div class="form-field">
-          <label for="timeline">When Do You Need Support?</label>
-          <select id="timeline" name="timeline" required>
-            <option value="">Select a timeline</option>
-            <option>As soon as possible</option>
-            <option>Within 2 weeks</option>
+          <label for="urgency">How soon do you need support?</label>
+          <select id="urgency" name="urgency" required>
+            <option value="">Select one</option>
+            <option>Immediately</option>
+            <option>Within the next 2 weeks</option>
             <option>Within a month</option>
-            <option>Just exploring</option>
+            <option>I'm planning ahead</option>
           </select>
         </div>
         <div class="form-field full">
-          <label for="message">Tell Us More (Optional)</label>
-          <textarea id="message" name="message" placeholder="A bit about your project, your team, or what's on your plate…"></textarea>
+          <label for="detail">Tell us more</label>
+          <textarea id="detail" name="detail" placeholder="What's going on? What's been on your plate that shouldn't be? The more context, the better — but even a few sentences is enough to get started."></textarea>
         </div>
       </div>
-      <button type="submit" class="btn-submit" id="submitBtn"><span id="submitLabel">Submit Interest &rarr;</span><span class="spinner" id="submitSpinner"></span></button>
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span id="submitLabel">Send →</span>
+        <span class="spinner" id="submitSpinner"></span>
+      </button>
     </form>
 
-    <div id="successScreen" style="display:none;text-align:center;padding:4rem 2rem;animation:fadeUp 0.6s ease both;">
-      <div style="width:64px;height:64px;border-radius:50%;margin:0 auto 2rem;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);background-size:400% 400%;animation:iridescent 7s ease infinite;display:flex;align-items:center;justify-content:center;">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#060606" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
+    <div id="successScreen">
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#060606" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
       </div>
-      <h3 style="font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:1rem;">We've got you.</h3>
-      <p style="color:var(--text-muted);font-size:0.95rem;max-width:440px;margin:0 auto 2rem;line-height:1.8;">Your enquiry is in. Someone from the Back Office team will be in touch shortly to discuss your needs and find you the right match.</p>
-      <p style="font-size:0.78rem;color:var(--text-dim);">In the meantime, reach us at <a href="mailto:contact.backofficeng@gmail.com" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">contact.backofficeng@gmail.com</a></p>
+      <h3 style="font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:1rem;">We've got it.</h3>
+      <p style="color:var(--text-muted);font-size:0.95rem;max-width:440px;margin:0 auto 2rem;line-height:1.8;">Your message is in. Someone from Back Office will be in touch shortly — not to sell you something, but to actually understand what you need.</p>
+      <p style="font-size:0.78rem;color:var(--text-dim);">Reach us directly at <a href="mailto:contact.backofficeng@gmail.com" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">contact.backofficeng@gmail.com</a></p>
     </div>
   </section>
 
   <div class="divider"></div>
 
+  <!-- ── FOOTER ─────────────────────────────────────────── -->
   <div class="footer-wrap">
     <div>
       <p class="footer-logo">Back Office</p>
-      <p class="footer-tagline">We handle the rest.</p>
+      <p class="footer-tagline">Private Assistance. Lagos, Nigeria.</p>
     </div>
     <div class="footer-contact">
       <a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a>
     </div>
     <div class="footer-note">
-      <p>Lagos, Nigeria</p>
       <p>Remote ready. Travel ready.</p>
-      <p style="margin-top:0.5rem"><a href="privacy.html" style="color:var(--text-dim);text-decoration:underline;text-underline-offset:3px;font-size:0.72rem;transition:color 0.2s;" onmouseover="this.style.color='#5a5a5a'" onmouseout="this.style.color='#333'">Privacy Policy</a></p>
+      <p style="margin-top:0.5rem">
+        <a href="discova.html">Discova</a>
+        &nbsp;·&nbsp;
+        <a href="privacy.html">Privacy Policy</a>
+      </p>
     </div>
   </div>
 
   <script>
-    async function runMatch() {
-      const input = document.getElementById('matchInput').value.trim();
-      if (!input) return;
-      const btn = document.getElementById('matchBtn');
-      const label = document.getElementById('matchBtnLabel');
-      const spinner = document.getElementById('matchSpinner');
-      btn.disabled = true;
-      label.style.display = 'none';
-      spinner.style.display = 'block';
-      try {
-        const res = await fetch('/api/match', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ input })
-        });
-        const parsed = await res.json();
-        document.getElementById('resultType').textContent = parsed.type;
-        document.getElementById('resultReason').textContent = parsed.reason;
-        const sel = document.getElementById('vatype');
-        for (let i = 0; i < sel.options.length; i++) {
-          if (sel.options[i].text === parsed.type) { sel.selectedIndex = i; break; }
-        }
-      } catch (e) {
-        document.getElementById('resultType').textContent = 'Tell us more';
-        document.getElementById('resultReason').textContent = "We couldn't auto-match this time — fill in the form below and we'll personally find the right fit for you.";
-      }
-      document.getElementById('matchResult').classList.add('visible');
-      btn.disabled = false;
-      label.style.display = 'inline';
-      spinner.style.display = 'none';
-    }
-
-    document.getElementById('matchInput').addEventListener('keydown', function(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') runMatch();
-    });
-
-    document.getElementById('interestForm').addEventListener('submit', async function(e) {
+    document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
       const label = document.getElementById('submitLabel');
       const spinner = document.getElementById('submitSpinner');
+
       btn.disabled = true;
       label.style.display = 'none';
       spinner.style.display = 'block';
+
       const formData = new FormData(this);
+
       try {
         const res = await fetch(this.action, {
           method: 'POST',
           body: formData,
           headers: { 'Accept': 'application/json' }
         });
+
         if (res.ok) {
-          document.getElementById('interestForm').style.display = 'none';
-          document.getElementById('successScreen').style.display = 'block';
-          document.getElementById('successScreen').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          document.getElementById('contactForm').style.display = 'none';
+          const s = document.getElementById('successScreen');
+          s.style.display = 'block';
+          s.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
           label.textContent = 'Try again →';
           btn.disabled = false;
