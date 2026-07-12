@@ -1,1171 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Back Office — Private Assistance</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BackOffice — Execution Partner</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #070707;
-      --surface: #0f0f0f;
-      --border: #1a1a1a;
-      --border-light: #252525;
-      --text: #f0ede6;
-      --text-muted: #5a5a5a;
-      --text-dim: #333;
-      --serif: 'Cormorant Garamond', Georgia, serif;
-      --sans: 'DM Sans', system-ui, sans-serif;
+      --bg:       #090908;
+      --bg-warm:  #0d0c0a;
+      --surface:  #111110;
+      --surface2: #181816;
+      --border:   #232320;
+      --borderl:  #2e2e2a;
+      --text:     #f2efe8;
+      --muted:    #6e6e68;
+      --dim:      #3c3c38;
+      --gold:     #c9a96e;
+      --indigo:   #6366f1;
+      --green:    #22c55e;
+      --serif:    'Cormorant Garamond', Georgia, serif;
+      --sans:     'DM Sans', system-ui, sans-serif;
+      --mono:     'Space Mono', monospace;
     }
-
-    @keyframes iridescent {
-      0%   { background-position: 0% 50%; }
-      50%  { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes iri { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    @keyframes spin { to{transform:rotate(360deg)} }
 
     html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
 
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ── RAINBOW UTILITIES ─────────────────────── */
     .r-text {
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
+      background: linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);
       background-size: 400% 400%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: iridescent 7s ease infinite;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; animation: iri 7s ease infinite;
     }
 
-    /* ── NAV ───────────────────────────────────── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 4rem;
-      background: rgba(7,7,7,0.88);
-      backdrop-filter: blur(16px);
+      position: fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.1rem 3.5rem;
+      background: rgba(9,9,8,.92); backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
-
-    .logo {
-      font-family: var(--serif);
-      font-size: 1.2rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--text);
-      text-decoration: none;
+    .nav-logo { font-size:.85rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; color:var(--text); text-decoration:none; }
+    .nav-cta {
+      font-size:.78rem; font-weight:500; padding:.55rem 1.2rem;
+      border-radius:8px; color:#060606; text-decoration:none;
+      position:relative; overflow:hidden;
     }
-
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-
-    .nav-links a {
-      font-size: 0.76rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
+    .nav-cta::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);
+      background-size:400% 400%; animation:iri 7s ease infinite;
     }
+    .nav-cta span { position:relative; z-index:1; }
 
-    .nav-links a:hover { color: var(--text); }
-
-    /* ── HERO ──────────────────────────────────── */
+    /* HERO */
     .hero {
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10rem 2rem 8rem;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
       text-align: center;
+      padding: 10rem 2rem 7rem;
       position: relative;
     }
-
-    /* Subtle grid background */
     .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%);
-      pointer-events: none;
+      content:''; position:absolute; inset:0;
+      background-image: linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 10%, transparent 100%);
+      pointer-events:none;
     }
 
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2.5rem;
-      animation: fadeUp 0.9s ease both;
+    .hero-chip {
+      display:inline-flex; align-items:center; gap:.5rem;
+      border:1px solid var(--borderl); border-radius:100px;
+      padding:.28rem .85rem .28rem .5rem; margin-bottom:2rem;
+      animation: fadeUp .8s ease both;
     }
+    .chip-dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 2s ease infinite; }
+    .chip-text { font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; color:var(--muted); }
 
     .hero-title {
       font-family: var(--serif);
-      font-size: clamp(2.8rem, 5.5vw, 5.5rem);
-      font-weight: 400;
-      line-height: 1.02;
-      margin-bottom: 2rem;
-      animation: fadeUp 0.9s 0.1s ease both;
-      max-width: 1000px;
+      font-size: clamp(3rem, 6vw, 6rem);
+      font-weight: 400; line-height: 1.04;
+      max-width: 820px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .8s .08s ease both;
     }
-
     .hero-title em { font-style: italic; }
 
     .hero-sub {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 540px;
-      line-height: 1.8;
-      margin-bottom: 3.5rem;
-      animation: fadeUp 0.9s 0.2s ease both;
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 500px; line-height: 1.78;
+      margin-bottom: 3rem;
+      animation: fadeUp .8s .16s ease both;
     }
+
+    .hero-actions { display:flex; gap:1rem; flex-wrap:wrap; justify-content:center; animation: fadeUp .8s .24s ease both; }
 
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2.5rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--sans);
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #060606;
-      text-decoration: none;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s;
-      animation: fadeUp 0.9s 0.3s ease both;
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.85rem 2rem; border-radius:8px; border:none;
+      font-family:var(--sans); font-size:.875rem; font-weight:500;
+      color:#060606; text-decoration:none; position:relative; overflow:hidden;
+      transition:transform .2s; cursor:pointer;
     }
-
     .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);
+      background-size:400% 400%; animation:iri 7s ease infinite;
     }
+    .btn-primary span { position:relative; z-index:1; }
+    .btn-primary:hover { transform:scale(1.02); }
 
-    .btn-primary span { position: relative; z-index: 1; }
-    .btn-primary:hover { transform: scale(1.03); }
-
-    /* ── SECTION BASE ──────────────────────────── */
-    section {
-      padding: 8rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
+    .btn-ghost {
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.85rem 1.5rem; border-radius:8px;
+      border:1px solid var(--borderl);
+      font-size:.875rem; color:var(--muted);
+      text-decoration:none; transition:color .2s, border-color .2s;
     }
+    .btn-ghost:hover { color:var(--text); border-color:var(--muted); }
 
-    .section-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
+    /* DIVIDER */
+    .divider { height:1px; background:var(--border); max-width:1100px; margin:0 auto; }
+
+    /* SECTIONS */
+    .section { padding:6rem 3.5rem; max-width:1100px; margin:0 auto; }
+
+    .eyebrow { font-family:var(--mono); font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); margin-bottom:.875rem; }
 
     .section-title {
-      font-family: var(--serif);
-      font-size: clamp(2.2rem, 4vw, 3.8rem);
-      font-weight: 400;
-      line-height: 1.1;
+      font-family:var(--serif);
+      font-size:clamp(2rem,3.5vw,3.5rem);
+      font-weight:400; line-height:1.1;
     }
 
-    .section-sub {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      max-width: 560px;
-      line-height: 1.8;
-      margin-top: 1rem;
+    .section-sub { font-size:.95rem; color:var(--muted); max-width:500px; line-height:1.8; margin-top:.875rem; }
+
+    /* PROBLEM */
+    .pain-grid {
+      display:grid; grid-template-columns:repeat(3,1fr);
+      gap:1px; background:var(--border);
+      border-radius:14px; overflow:hidden;
+      margin-top:3.5rem;
+    }
+    .pain-card { background:var(--surface); padding:2rem 1.75rem; transition:background .2s; }
+    .pain-card:hover { background:var(--surface2); }
+    .pain-quote { font-family:var(--serif); font-size:1.2rem; font-style:italic; color:var(--text); line-height:1.5; margin-bottom:.75rem; }
+    .pain-note { font-size:.78rem; color:var(--muted); }
+
+    /* SOLUTION */
+    .solution-layout {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:4rem; align-items:center; margin-top:3.5rem;
     }
 
-    .divider {
-      height: 1px;
-      background: var(--border);
-      max-width: 1200px;
-      margin: 0 auto;
+    .solution-text .big-stat {
+      font-family:var(--serif);
+      font-size:clamp(3rem,5vw,5.5rem);
+      font-weight:300; line-height:1;
+      color:var(--text); margin-bottom:.5rem;
     }
 
-    /* ── PROMISE STRIP ─────────────────────────── */
-    .promise-strip {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 3.5rem 4rem;
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+    .solution-text .stat-label { font-size:.875rem; color:var(--muted); margin-bottom:2rem; }
+
+    .solution-text p { font-size:.9rem; color:var(--muted); line-height:1.82; }
+
+    .solution-card {
+      background:var(--surface);
+      border:1px solid var(--borderl);
+      border-radius:16px; padding:2rem;
     }
 
-    .promise-text {
-      font-family: var(--serif);
-      font-size: clamp(1.4rem, 3vw, 2.4rem);
-      font-weight: 400;
-      color: var(--text);
-      line-height: 1.5;
-      max-width: 780px;
+    .sc-row {
+      display:flex; align-items:flex-start; gap:1rem;
+      padding:.875rem 0;
+      border-bottom:1px solid var(--border);
+    }
+    .sc-row:last-child { border-bottom:none; padding-bottom:0; }
+    .sc-row:first-child { padding-top:0; }
+
+    .sc-icon {
+      width:32px; height:32px; border-radius:8px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:.9rem;
+    }
+    .i-indigo { background:rgba(99,102,241,.14); }
+    .i-green  { background:rgba(34,197,94,.12); }
+    .i-gold   { background:rgba(201,169,110,.12); }
+    .i-amber  { background:rgba(245,158,11,.12); }
+
+    .sc-label { font-size:.825rem; font-weight:500; color:var(--text); }
+    .sc-desc  { font-size:.775rem; color:var(--muted); margin-top:.15rem; line-height:1.5; }
+
+    /* ENGAGEMENTS */
+    .engage-grid {
+      display:grid; grid-template-columns:repeat(2,1fr);
+      gap:1.5rem; margin-top:3.5rem;
     }
 
-    .promise-text em { font-style: italic; }
+    .engage-card {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:16px; padding:2.25rem;
+      transition:border-color .3s, transform .25s;
+      position:relative; overflow:hidden;
+    }
+    .engage-card:hover { border-color:var(--borderl); transform:translateY(-3px); }
 
-    /* ── CLIENT PERSONAS ───────────────────────── */
-    .persona-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      margin-top: 4rem;
-      background: var(--border);
-      border-radius: 16px;
-      overflow: hidden;
+    .engage-card.featured { border-color:var(--borderl); background:var(--surface2); }
+    .engage-card.featured::before {
+      content:''; position:absolute; inset:0;
+      background:radial-gradient(ellipse at top left, rgba(99,102,241,.07) 0%, transparent 60%);
+      pointer-events:none;
     }
 
-    .persona-card {
-      background: var(--surface);
-      padding: 2.5rem 2rem;
-      transition: background 0.25s;
-      position: relative;
-      overflow: hidden;
+    .ec-tag {
+      font-family:var(--mono); font-size:.58rem; letter-spacing:.1em;
+      padding:.18rem .55rem; border-radius:4px; margin-bottom:1.5rem;
+      display:inline-block;
+    }
+    .ec-tag.pop { background:rgba(99,102,241,.15); color:#818cf8; }
+    .ec-tag.def { background:var(--surface2); color:var(--muted); }
+
+    .ec-name { font-family:var(--serif); font-size:1.5rem; font-weight:500; margin-bottom:.5rem; }
+    .ec-desc { font-size:.855rem; color:var(--muted); line-height:1.68; margin-bottom:1.5rem; }
+
+    .ec-timeline {
+      font-family:var(--mono); font-size:.62rem;
+      color:var(--gold); margin-bottom:1.5rem;
     }
 
-    .persona-card::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      background: linear-gradient(135deg,
-        rgba(255,107,157,0.04),
-        rgba(196,77,255,0.04),
-        rgba(77,121,255,0.04));
-      transition: opacity 0.3s;
-      pointer-events: none;
+    .ec-cta {
+      display:block; width:100%; padding:.7rem;
+      border-radius:8px; font-size:.82rem; font-weight:500;
+      text-align:center; text-decoration:none; transition:all .2s;
     }
+    .ec-cta.primary { background:rgba(99,102,241,.15); color:#818cf8; border:1px solid rgba(99,102,241,.25); }
+    .ec-cta.primary:hover { background:rgba(99,102,241,.25); }
+    .ec-cta.secondary { background:var(--bg-warm); color:var(--muted); border:1px solid var(--border); }
+    .ec-cta.secondary:hover { color:var(--text); border-color:var(--borderl); }
 
-    .persona-card:hover { background: #141414; }
-    .persona-card:hover::after { opacity: 1; }
-
-    .persona-icon {
-      font-size: 1.25rem;
-      margin-bottom: 1.25rem;
-      display: block;
-      opacity: 0.6;
+    /* WHO */
+    .who-strip {
+      display:flex; flex-wrap:wrap; gap:.75rem; margin-top:3rem;
     }
-
-    .persona-title {
-      font-family: var(--serif);
-      font-size: 1.5rem;
-      font-weight: 500;
-      margin-bottom: 0.875rem;
-      line-height: 1.2;
+    .who-pill {
+      padding:.5rem 1.1rem; border-radius:100px;
+      border:1px solid var(--borderl);
+      font-size:.82rem; color:var(--muted);
+      transition:all .25s; position:relative; overflow:hidden;
     }
-
-    .persona-desc {
-      font-size: 0.855rem;
-      color: var(--text-muted);
-      line-height: 1.8;
+    .who-pill span { position:relative; z-index:1; }
+    .who-pill::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);
+      background-size:400% 400%; animation:iri 7s ease infinite;
+      opacity:0; transition:opacity .25s;
     }
+    .who-pill:hover { color:#060606; border-color:transparent; }
+    .who-pill:hover::before { opacity:1; }
 
-    /* ── WHAT WE HANDLE ────────────────────────── */
-    .handle-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      margin-top: 4rem;
-      background: var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-    }
+    /* FORM */
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:3rem; }
+    .form-field { display:flex; flex-direction:column; gap:.5rem; }
+    .form-field.full { grid-column:1/-1; }
 
-    .handle-card {
-      background: var(--surface);
-      padding: 3rem;
-      transition: background 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .handle-card:hover { background: #111; }
-
-    .handle-num {
-      font-size: 0.65rem;
-      letter-spacing: 0.14em;
-      color: var(--text-dim);
-      margin-bottom: 1.5rem;
-    }
-
-    .handle-title {
-      font-family: var(--serif);
-      font-size: 1.75rem;
-      font-weight: 500;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-
-    .handle-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      max-width: 440px;
-    }
-
-    .handle-for {
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    .handle-for span { color: var(--text-muted); }
-
-    /* Iridescent left border on hover */
-    .handle-card::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 2px;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .handle-card:hover::before { opacity: 1; }
-
-    /* ── HOW WE WORK ───────────────────────────── */
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3rem;
-      margin-top: 4rem;
-    }
-
-    .step-num {
-      font-family: var(--serif);
-      font-size: 4rem;
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
-
-    .step-title {
-      font-size: 0.82rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-
-    .step-desc {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.78;
-    }
-
-    /* ── DISTINCTION SECTION ───────────────────── */
-    .distinction {
-      border: 1px solid var(--border-light);
-      border-radius: 16px;
-      padding: 4rem;
-      margin-top: 4rem;
-      background: var(--surface);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .distinction-quote {
-      font-family: var(--serif);
-      font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 400;
-      line-height: 1.4;
-      color: var(--text);
-    }
-
-    .distinction-quote em { font-style: italic; }
-
-    .distinction-points {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .distinction-point {
-      display: flex;
-      gap: 1rem;
-      align-items: flex-start;
-    }
-
-    .dp-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 2px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .dp-icon::before {
-      content: '✓';
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.7rem;
-      color: #060606;
-      font-weight: 600;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-    }
-
-    .dp-text {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    .dp-text strong {
-      color: var(--text);
-      font-weight: 500;
-      display: block;
-      margin-bottom: 0.15rem;
-    }
-
-    /* ── FORM ──────────────────────────────────── */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 3.5rem;
-    }
-
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-    }
-
-    .form-field.full { grid-column: 1 / -1; }
-
-    label {
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-    }
+    label { font-family:var(--mono); font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
 
     input, select, textarea {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 0.9rem 1rem;
-      color: var(--text);
-      font-family: var(--sans);
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      -webkit-appearance: none;
+      background:var(--surface); border:1px solid var(--borderl);
+      border-radius:8px; padding:.85rem 1rem;
+      color:var(--text); font-family:var(--sans); font-size:.875rem;
+      outline:none; transition:border-color .2s, box-shadow .2s; -webkit-appearance:none;
+    }
+    input:focus, select:focus, textarea:focus { border-color:transparent; box-shadow:0 0 0 1.5px var(--indigo); }
+    select { cursor:pointer; }
+    select option { background:#161614; }
+    textarea { min-height:110px; resize:vertical; line-height:1.7; }
+
+    .spinner { width:14px; height:14px; border:2px solid rgba(6,6,6,.3); border-top-color:#060606; border-radius:50%; animation:spin .65s linear infinite; display:none; }
+
+    #successScreen { display:none; text-align:center; padding:3.5rem 0; animation:fadeUp .6s ease both; }
+    .success-check { width:52px; height:52px; border-radius:50%; margin:0 auto 1.5rem; position:relative; overflow:hidden; }
+    .success-check::before {
+      content:'✓'; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+      font-size:1.1rem; color:#060606; font-weight:700;
+      background:linear-gradient(-45deg,#ff6b9d,#c44dff,#4d79ff,#00d4ff,#00ffcc,#c8ff00,#ffcc00,#ff6b9d);
+      background-size:400% 400%; animation:iri 7s ease infinite;
     }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: transparent;
-      box-shadow: 0 0 0 1.5px #c44dff;
+    /* FINAL CTA */
+    .final { text-align:center; padding:8rem 2rem; }
+    .final-title { font-family:var(--serif); font-size:clamp(2.8rem,5vw,5rem); font-weight:400; line-height:1.05; margin-bottom:1.25rem; }
+    .final-title em { font-style:italic; }
+    .final-sub { font-size:1rem; color:var(--muted); max-width:440px; margin:0 auto 2.75rem; line-height:1.78; }
+
+    /* FOOTER */
+    footer {
+      border-top:1px solid var(--border); padding:2.5rem 3.5rem;
+      max-width:1100px; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between; gap:2rem;
     }
+    .footer-logo { font-size:.82rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; }
+    .footer-tag { font-size:.72rem; color:var(--dim); margin-top:.25rem; }
+    .footer-links { display:flex; gap:1.75rem; }
+    .footer-links a { font-size:.78rem; color:var(--muted); text-decoration:none; transition:color .2s; }
+    .footer-links a:hover { color:var(--text); }
+    .footer-contact a { font-size:.78rem; color:var(--muted); text-decoration:none; }
+    .footer-legal { font-size:.68rem; color:var(--dim); margin-top:.25rem; text-align:right; }
+    .footer-legal a { color:var(--dim); text-decoration:underline; text-underline-offset:3px; }
 
-    select { cursor: pointer; }
-    select option { background: #161616; }
-    textarea { min-height: 130px; resize: vertical; line-height: 1.75; }
-
-    .btn-submit {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2.75rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-family: var(--sans);
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #060606;
-      position: relative;
-      overflow: hidden;
-      transition: transform 0.2s;
-      margin-top: 1.5rem;
+    /* RESPONSIVE */
+    @media (max-width:900px) {
+      nav { padding:1rem 1.5rem; }
+      .section { padding:4.5rem 1.5rem; }
+      .hero { padding:7rem 1.5rem 4.5rem; }
+      .pain-grid { grid-template-columns:1fr; }
+      .solution-layout { grid-template-columns:1fr; gap:2.5rem; }
+      .engage-grid { grid-template-columns:1fr; }
+      .form-grid { grid-template-columns:1fr; }
+      footer { flex-direction:column; align-items:flex-start; padding:2rem 1.5rem; }
+      .footer-legal { text-align:left; }
+      .final { padding:5rem 1.5rem; }
     }
-
-    .btn-submit::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-    }
-
-    .btn-submit span { position: relative; z-index: 1; }
-    .btn-submit:hover { transform: scale(1.02); }
-    .btn-submit:active { transform: scale(0.98); }
-
-    /* ── SUCCESS SCREEN ────────────────────────── */
-    #successScreen {
-      display: none;
-      text-align: center;
-      padding: 4rem 2rem;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .success-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      margin: 0 auto 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .success-icon::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-    }
-
-    .success-icon svg {
-      position: absolute;
-      inset: 0;
-      margin: auto;
-      width: 28px;
-      height: 28px;
-    }
-
-    /* ── FOOTER ────────────────────────────────── */
-    .footer-wrap {
-      border-top: 1px solid var(--border);
-      padding: 3rem 4rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-
-    .footer-logo {
-      font-family: var(--serif);
-      font-size: 1rem;
-      font-weight: 500;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 0.25rem;
-    }
-
-    .footer-tagline { font-size: 0.78rem; color: var(--text-dim); }
-
-    .footer-contact a {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-contact a:hover { color: var(--text); }
-
-    .footer-note { font-size: 0.72rem; color: var(--text-dim); text-align: right; }
-
-    .footer-note a {
-      color: var(--text-dim);
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      transition: color 0.2s;
-    }
-
-    .footer-note a:hover { color: var(--text-muted); }
-
-    /* ── REVIEWS ───────────────────────────────── */
-    .review-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem;
-    }
-
-    .review-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 2.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      transition: border-color 0.3s, transform 0.25s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .review-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      background: linear-gradient(135deg,
-        rgba(255,107,157,0.04),
-        rgba(196,77,255,0.04),
-        rgba(77,121,255,0.04));
-      transition: opacity 0.3s;
-      pointer-events: none;
-    }
-
-    .review-card:hover {
-      border-color: var(--border-light);
-      transform: translateY(-4px);
-    }
-
-    .review-card:hover::before { opacity: 1; }
-
-    .review-quote-mark {
-      font-family: var(--serif);
-      font-size: 4rem;
-      line-height: 0.8;
-      color: var(--border-light);
-      font-weight: 300;
-    }
-
-    .review-role-tag {
-      font-size: 0.65rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      display: inline-block;
-      padding: 0.28rem 0.75rem;
-      border-radius: 100px;
-      position: relative;
-      overflow: hidden;
-      color: #060606;
-      font-weight: 500;
-    }
-
-    .review-role-tag::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-    }
-
-    .review-role-tag { position: relative; z-index: 1; }
-    .review-role-tag::before { z-index: -1; }
-
-    .review-text {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.85;
-      flex: 1;
-    }
-
-    .review-author {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .review-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--border-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-      flex-shrink: 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .review-avatar::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(-45deg, #ff6b9d, #c44dff, #4d79ff, #00d4ff, #00ffcc, #c8ff00, #ffcc00, #ff6b9d);
-      background-size: 400% 400%;
-      animation: iridescent 7s ease infinite;
-      opacity: 0.15;
-    }
-
-    .review-name {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text);
-      margin-bottom: 0.2rem;
-    }
-
-    .review-title {
-      font-size: 0.775rem;
-      color: var(--text-muted);
-    }
-
-    /* Spinner */
-    .spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(6,6,6,0.3);
-      border-top-color: #060606;
-      border-radius: 50%;
-      animation: spin 0.65s linear infinite;
-      display: none;
-    }
-
-    /* ── RESPONSIVE ────────────────────────────── */
-    @media (max-width: 900px) {
-      nav { padding: 1.25rem 1.5rem; }
-      .nav-links { display: none; }
-      section { padding: 5rem 1.5rem; }
-      .promise-strip { padding: 3rem 1.5rem; }
-      .persona-grid { grid-template-columns: 1fr; }
-      .handle-grid { grid-template-columns: 1fr; }
-      .steps { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-      .distinction { grid-template-columns: 1fr; gap: 2.5rem; }
-      .form-grid { grid-template-columns: 1fr; }
-      .review-grid { grid-template-columns: 1fr; }
-      .footer-wrap { flex-direction: column; gap: 1.5rem; padding: 2.5rem 1.5rem; }
-      .footer-note { text-align: left; }
-    }
-
-    @media (max-width: 600px) {
-      nav { padding: 1rem 1.25rem; }
-      .hero { padding: 6rem 1.25rem 4rem; min-height: auto; }
-      .hero-title { font-size: 2.6rem; }
-      .hero-sub { font-size: 0.9rem; }
-      section { padding: 3.5rem 1.25rem; }
-      .section-title { font-size: 1.9rem; }
-      .persona-card { padding: 1.75rem 1.5rem; }
-      .handle-card { padding: 2rem 1.5rem; }
-      .handle-title { font-size: 1.4rem; }
-      .steps { grid-template-columns: 1fr; gap: 2rem; }
-      .step-num { font-size: 2.5rem; }
-      .distinction { padding: 2rem 1.5rem; }
-      .btn-submit { width: 100%; justify-content: center; }
-      .btn-primary { width: 100%; justify-content: center; }
-      .footer-wrap { padding: 2rem 1.25rem; gap: 1.25rem; }
+    @media (max-width:600px) {
+      .hero-title { font-size:2.6rem; }
+      .hero-actions { flex-direction:column; }
+      .btn-primary, .btn-ghost { width:100%; justify-content:center; }
+      .pain-grid { gap:0; }
+      .who-strip { gap:.5rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <a href="#" class="logo">Back&nbsp;Office</a>
-    <ul class="nav-links">
-      <li><a href="#clients">Who We Serve</a></li>
-      <li><a href="#handle">What We Handle</a></li>
-      <li><a href="#how">How We Work</a></li>
-      <li><a href="discova.html">Discova</a></li>
-      <li><a href="#contact">Get in Touch</a></li>
-    </ul>
-  </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">BackOffice</a>
+  <a href="#contact" class="nav-cta"><span>Book a Discovery Call</span></a>
+</nav>
 
-  <!-- ── HERO ─────────────────────────────────────────── -->
-  <div class="hero">
-    <p class="hero-eyebrow">Private Assistance</p>
-    <h1 class="hero-title">
-      When running the world<br>
-      leaves no room to<br>
-      <em class="r-text">run your life.</em>
-    </h1>
-    <p class="hero-sub">Back Office provides discreet, capable execution for the parts of life and work that don't fit neatly into any job title.</p>
-    <a href="#contact" class="btn-primary"><span>Tell us what's on your plate →</span></a>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-chip">
+    <span class="chip-dot"></span>
+    <span class="chip-text">Now accepting new clients</span>
   </div>
-
-  <!-- ── PROMISE STRIP ─────────────────────────────────── -->
-  <div class="promise-strip">
-    <p class="promise-text">
-      We don't place assistants.<br>
-      <em>We take ownership of what keeps demanding your attention.</em>
-    </p>
+  <h1 class="hero-title">
+    Have an idea you've<br>never had time<br><em class="r-text">to launch?</em>
+  </h1>
+  <p class="hero-sub">BackOffice becomes your execution partner — turning your business idea into a launch-ready reality in six weeks, without quitting your job.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-primary"><span>Book a Discovery Call →</span></a>
+    <a href="#solution" class="btn-ghost">How it works</a>
   </div>
+</div>
 
-  <!-- ── WHO WE SERVE ──────────────────────────────────── -->
-  <section id="clients">
-    <p class="section-label">Who We Serve</p>
-    <h2 class="section-title">Built for people<br>whose lives have become<br>operationally complex.</h2>
-    <p class="section-sub">Our clients don't need more tools. They need a trusted team that understands what's at stake and executes without being told twice.</p>
+<!-- PROBLEM -->
+<div class="divider"></div>
+<section class="section">
+  <p class="eyebrow">The Problem</p>
+  <h2 class="section-title">Ideas don't fail.<br>Execution does.</h2>
+  <p class="section-sub">You know what you want to build. The gap has never been the idea.</p>
 
-    <div class="persona-grid">
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The CEO</p>
-        <p class="persona-desc">Runs a company of hundreds. Has three properties. Travels every two weeks. Needs someone who can manage all of it without being asked twice — and without explanation.</p>
-      </div>
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The Public Figure</p>
-        <p class="persona-desc">Their face is their business. Their schedule is their product. Their personal life needs the same operational precision as their brand — and the same level of discretion.</p>
-      </div>
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The Founder</p>
-        <p class="persona-desc">Building something that didn't exist before takes everything. Travel, home, admin, events — all of it needs to run without them having to think about it.</p>
-      </div>
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The Executive</p>
-        <p class="persona-desc">Their time costs more per hour than most monthly salaries. Spending it on logistics, coordination, and follow-up is the most expensive thing they do.</p>
-      </div>
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The HNW Family</p>
-        <p class="persona-desc">Multiple properties, multiple staff, multiple schedules, multiple decisions. Someone needs to hold the thread. We do.</p>
-      </div>
-      <div class="persona-card">
-        <span class="persona-icon">◈</span>
-        <p class="persona-title">The Expatriate</p>
-        <p class="persona-desc">New city, new systems, no network. From school placements to domestic staff, property setup to government processes — everything needs someone on the ground who knows how it works.</p>
-      </div>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <p class="pain-quote">"I've been saying I'll launch next month."</p>
+      <p class="pain-note">For fourteen months.</p>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── WHAT WE HANDLE ────────────────────────────────── -->
-  <section id="handle">
-    <p class="section-label">What We Handle</p>
-    <h2 class="section-title">Not job titles.<br>Outcomes.</h2>
-    <p class="section-sub">Most of what we do doesn't have a name. It's the space between your needs and the people capable of meeting them — owned and executed by us.</p>
-
-    <div class="handle-grid">
-      <div class="handle-card">
-        <p class="handle-num">01</p>
-        <p class="handle-title">The Human Firewall</p>
-        <p class="handle-desc">Your attention is your most valuable asset. We sit between you and everything that shouldn't reach you — calendar, inbox, calls, meetings, decisions, people. You engage only with what actually needs you.</p>
-        <p class="handle-for">For: <span>CEOs, Executives, Public Figures</span></p>
-      </div>
-      <div class="handle-card">
-        <p class="handle-num">02</p>
-        <p class="handle-title">Life Infrastructure</p>
-        <p class="handle-desc">Home vendors. Family logistics. School runs. Property management. Medical appointments. The operational layer of a complex life — managed end to end, without you having to touch it.</p>
-        <p class="handle-for">For: <span>HNW Individuals, Busy Families, Executives</span></p>
-      </div>
-      <div class="handle-card">
-        <p class="handle-num">03</p>
-        <p class="handle-title">Movement Coordination</p>
-        <p class="handle-desc">Lagos to London. Conference in Accra. Family holiday in Dubai. Every flight, hotel, transfer, visa, and itinerary handled before you've thought to ask. You just show up.</p>
-        <p class="handle-for">For: <span>Frequent Travelers, International Executives</span></p>
-      </div>
-      <div class="handle-card">
-        <p class="handle-num">04</p>
-        <p class="handle-title">Brand & Presence Support</p>
-        <p class="handle-desc">Shoots. Appearances. Content logistics. Styling coordination. The operations behind your public-facing self — so your creative or professional image never suffers from poor execution.</p>
-        <p class="handle-for">For: <span>Creatives, Public Figures, Personal Brand Builders</span></p>
-      </div>
-      <div class="handle-card">
-        <p class="handle-num">05</p>
-        <p class="handle-title">Execution on Demand</p>
-        <p class="handle-desc">A project. An event. A relocation. A launch. Defined scope, immediate deployment, total accountability from start to finish. We own it until it's done — and done well.</p>
-        <p class="handle-for">For: <span>Anyone with a complex, time-sensitive need</span></p>
-      </div>
-      <div class="handle-card">
-        <p class="handle-num">06</p>
-        <p class="handle-title">Estate & Household Management</p>
-        <p class="handle-desc">Multiple properties. Domestic staff oversight. Renovation coordination. Supply chains. The infrastructure of a significant life — maintained, managed, and never left to chance.</p>
-        <p class="handle-for">For: <span>HNW Families, Property Owners, Expatriates</span></p>
-      </div>
+    <div class="pain-card">
+      <p class="pain-quote">"My 9–5 leaves me with nothing."</p>
+      <p class="pain-note">By the weekend, the last thing you want to do is build.</p>
     </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── DISTINCTION ───────────────────────────────────── -->
-  <section>
-    <div class="distinction">
-      <div>
-        <p class="section-label">Why Back Office</p>
-        <p class="distinction-quote">
-          "The value isn't finding you a person.<br>
-          <em>It's understanding what you actually need and making sure it gets done.</em>"
-        </p>
-      </div>
-      <div class="distinction-points">
-        <div class="distinction-point">
-          <div class="dp-icon"></div>
-          <div class="dp-text">
-            <strong>We take ownership, not instructions</strong>
-            You tell us the outcome. We figure out how to get there and take responsibility for the result.
-          </div>
-        </div>
-        <div class="distinction-point">
-          <div class="dp-icon"></div>
-          <div class="dp-text">
-            <strong>Right capability for every need</strong>
-            Different situations require different expertise. We bring in the right person for each — you never have to manage the gap.
-          </div>
-        </div>
-        <div class="distinction-point">
-          <div class="dp-icon"></div>
-          <div class="dp-text">
-            <strong>Discretion is non-negotiable</strong>
-            The people we work with operate at a level where trust isn't optional. Our standards reflect that.
-          </div>
-        </div>
-        <div class="distinction-point">
-          <div class="dp-icon"></div>
-          <div class="dp-text">
-            <strong>No HR overhead</strong>
-            No contracts, no payroll, no compliance stress. We hold that weight. You don't.
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── HOW WE WORK ────────────────────────────────────── -->
-  <section id="how">
-    <p class="section-label">How We Work</p>
-    <h2 class="section-title">Four steps.<br>Then we take it<br>from there.</h2>
-    <div class="steps">
-      <div>
-        <p class="step-num r-text">01</p>
-        <p class="step-title">We Listen</p>
-        <p class="step-desc">Tell us what's demanding your attention — your project, your situation, your life. Not a form. A conversation. No need to frame it perfectly.</p>
-      </div>
-      <div>
-        <p class="step-num r-text">02</p>
-        <p class="step-title">We Understand</p>
-        <p class="step-desc">We map what you actually need — often before you can fully name it. Then we tell you clearly how we'd handle it and who we'd bring in.</p>
-      </div>
-      <div>
-        <p class="step-num r-text">03</p>
-        <p class="step-title">We Align</p>
-        <p class="step-desc">Scope, terms, expectations — all agreed and clear before anyone starts. No ambiguity, no surprises. You approve, we move.</p>
-      </div>
-      <div>
-        <p class="step-num r-text">04</p>
-        <p class="step-title">We Execute</p>
-        <p class="step-desc">The right person, deployed immediately. Accountable to Back Office, delivering to you. You don't manage the process. We do.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── TESTIMONIALS ──────────────────────────────────── -->
-  <section id="reviews">
-    <p class="section-label">In Their Words</p>
-    <h2 class="section-title">What our clients<br>actually say.</h2>
-
-    <div class="review-grid">
-
-      <div class="review-card">
-        <div class="review-quote-mark">"</div>
-        <p class="review-role-tag">Executive Support</p>
-        <p class="review-text">I was running a fundraise, managing two board meetings, and relocating my family — all in the same month. Back Office stepped in and I genuinely forgot those things existed until they were done. My EA had briefed the new city before we arrived. My inbox only showed me what I needed to see. That's not a VA. That's infrastructure.</p>
-        <div class="review-author">
-          <div class="review-avatar">AO</div>
-          <div>
-            <p class="review-name">Adewale O.</p>
-            <p class="review-title">Managing Director, Lagos</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-quote-mark">"</div>
-        <p class="review-role-tag">Movement Coordination</p>
-        <p class="review-text">I do about 14 trips a year — panels, shows, partnerships, press. I used to spend hours every month just managing logistics. Back Office now handles every trip from brief to landing. Hotels are pre-vetted to my standards. Transfers are waiting. Itineraries account for time zones before I think to ask. I just travel. Someone else runs it.</p>
-        <div class="review-author">
-          <div class="review-avatar">TI</div>
-          <div>
-            <p class="review-name">Temi I.</p>
-            <p class="review-title">Creative Director &amp; Founder, Abuja</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-quote-mark">"</div>
-        <p class="review-role-tag">Life Infrastructure</p>
-        <p class="review-text">Between my husband's schedule and mine, our home was always the thing that fell through the cracks. Contractors not showing up. Staff not being managed. School logistics becoming a weekend job. Back Office took all of it. Our home now runs without us having to think about it. That's not a small thing — that's given us our evenings back.</p>
-        <div class="review-author">
-          <div class="review-avatar">FK</div>
-          <div>
-            <p class="review-name">Funke K.</p>
-            <p class="review-title">Partner, Financial Services, Lagos</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── CONTACT FORM ───────────────────────────────────── -->
-  <section id="contact">
-    <p class="section-label">Get in Touch</p>
-    <h2 class="section-title">Tell us what's<br>demanding your attention.</h2>
-    <p class="section-sub">No long intake forms. Just tell us what's going on and we'll take it from there.</p>
-
-    <form id="contactForm" action="https://formspree.io/f/mojylbbp" method="POST">
-      <input type="hidden" name="_subject" value="New Back Office Enquiry" />
-      <div class="form-grid">
-        <div class="form-field">
-          <label for="fname">Your Name</label>
-          <input type="text" id="fname" name="name" placeholder="Full name" required />
-        </div>
-        <div class="form-field">
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="you@email.com" required />
-        </div>
-        <div class="form-field">
-          <label for="situation">What best describes your situation?</label>
-          <select id="situation" name="situation" required>
-            <option value="">Select one</option>
-            <option>I need ongoing executive support</option>
-            <option>I need my personal life managed</option>
-            <option>I need travel coordinated</option>
-            <option>I need a specific project executed</option>
-            <option>I need home or estate management</option>
-            <option>I need brand and presence support</option>
-            <option>Something else entirely</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label for="urgency">How soon do you need support?</label>
-          <select id="urgency" name="urgency" required>
-            <option value="">Select one</option>
-            <option>Immediately</option>
-            <option>Within the next 2 weeks</option>
-            <option>Within a month</option>
-            <option>I'm planning ahead</option>
-          </select>
-        </div>
-        <div class="form-field full">
-          <label for="detail">Tell us more</label>
-          <textarea id="detail" name="detail" placeholder="What's going on? What's been on your plate that shouldn't be? The more context, the better — but even a few sentences is enough to get started."></textarea>
-        </div>
-      </div>
-      <button type="submit" class="btn-submit" id="submitBtn">
-        <span id="submitLabel">Send →</span>
-        <span class="spinner" id="submitSpinner"></span>
-      </button>
-    </form>
-
-    <div id="successScreen">
-      <div class="success-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#060606" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <h3 style="font-family:var(--serif);font-size:2.8rem;font-weight:400;margin-bottom:1rem;">We've got it.</h3>
-      <p style="color:var(--text-muted);font-size:0.95rem;max-width:440px;margin:0 auto 2rem;line-height:1.8;">Your message is in. Someone from Back Office will be in touch shortly — not to sell you something, but to actually understand what you need.</p>
-      <p style="font-size:0.78rem;color:var(--text-dim);">Reach us directly at <a href="mailto:contact.backofficeng@gmail.com" style="color:var(--text-muted);text-decoration:underline;text-underline-offset:3px;">contact.backofficeng@gmail.com</a></p>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ── FOOTER ─────────────────────────────────────────── -->
-  <div class="footer-wrap">
-    <div>
-      <p class="footer-logo">Back Office</p>
-      <p class="footer-tagline">Private Assistance. Lagos, Nigeria.</p>
-    </div>
-    <div class="footer-contact">
-      <a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a>
-    </div>
-    <div class="footer-note">
-      <p>Remote ready. Travel ready.</p>
-      <p style="margin-top:0.5rem">
-        <a href="discova.html">Discova</a>
-        &nbsp;·&nbsp;
-        <a href="privacy.html">Privacy Policy</a>
-      </p>
+    <div class="pain-card">
+      <p class="pain-quote">"I've hired freelancers but nothing moved."</p>
+      <p class="pain-note">They delivered tasks. Nobody owned the outcome.</p>
     </div>
   </div>
+</section>
 
-  <script>
-    document.getElementById('contactForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      const label = document.getElementById('submitLabel');
-      const spinner = document.getElementById('submitSpinner');
+<!-- SOLUTION -->
+<div class="divider"></div>
+<section class="section" id="solution">
+  <p class="eyebrow">The Solution</p>
+  <h2 class="section-title">Meet your<br>Execution Partner.</h2>
 
-      btn.disabled = true;
-      label.style.display = 'none';
-      spinner.style.display = 'block';
+  <div class="solution-layout">
+    <div class="solution-text">
+      <p class="big-stat">6</p>
+      <p class="stat-label">weeks from idea to launched.</p>
+      <p>You don't hire a team. You don't manage a process. You get one dedicated Execution Lead backed by strategists, designers, and specialists — coordinated entirely by us.<br><br>You make the decisions. We do everything else.</p>
+    </div>
+    <div class="solution-card">
+      <div class="sc-row">
+        <div class="sc-icon i-indigo">🎯</div>
+        <div>
+          <p class="sc-label">We own the outcome</p>
+          <p class="sc-desc">Not deliverables. The result. We stay accountable until your business is live.</p>
+        </div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-icon i-green">⚡</div>
+        <div>
+          <p class="sc-label">Two touchpoints a week</p>
+          <p class="sc-desc">Tuesday and Friday. Everything else runs without you having to think about it.</p>
+        </div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-icon i-gold">🔒</div>
+        <div>
+          <p class="sc-label">One point of contact</p>
+          <p class="sc-desc">Your Execution Lead coordinates the whole team. You never manage the work.</p>
+        </div>
+      </div>
+      <div class="sc-row">
+        <div class="sc-icon i-amber">🚀</div>
+        <div>
+          <p class="sc-label">Six weeks to launch</p>
+          <p class="sc-desc">Validated, built, and live. Not someday. In six weeks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      const formData = new FormData(this);
+<!-- WHO -->
+<div class="divider"></div>
+<section class="section">
+  <p class="eyebrow">Who It's For</p>
+  <h2 class="section-title">People with ideas<br>and limited time.</h2>
+  <p class="section-sub">If you know what you want to build but can't find the time, structure, or momentum to do it alone — BackOffice was built for you.</p>
+  <div class="who-strip">
+    <div class="who-pill"><span>Corporate professionals</span></div>
+    <div class="who-pill"><span>Founders in waiting</span></div>
+    <div class="who-pill"><span>Creators</span></div>
+    <div class="who-pill"><span>Consultants</span></div>
+    <div class="who-pill"><span>Executives</span></div>
+    <div class="who-pill"><span>Side hustlers</span></div>
+    <div class="who-pill"><span>Operators</span></div>
+    <div class="who-pill"><span>Freelancers ready to scale</span></div>
+  </div>
+</section>
 
-      try {
-        const res = await fetch(this.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
+<!-- ENGAGEMENTS -->
+<div class="divider"></div>
+<section class="section" id="pricing">
+  <p class="eyebrow">How We Work Together</p>
+  <h2 class="section-title">Choose your<br>engagement.</h2>
 
-        if (res.ok) {
-          document.getElementById('contactForm').style.display = 'none';
-          const s = document.getElementById('successScreen');
-          s.style.display = 'block';
-          s.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          label.textContent = 'Try again →';
-          btn.disabled = false;
-          spinner.style.display = 'none';
-          label.style.display = 'inline';
-        }
-      } catch(err) {
-        label.textContent = 'Try again →';
-        btn.disabled = false;
-        spinner.style.display = 'none';
-        label.style.display = 'inline';
+  <div class="engage-grid">
+    <div class="engage-card">
+      <span class="ec-tag def">Sprint · 2 weeks</span>
+      <h3 class="ec-name">Validation Sprint</h3>
+      <p class="ec-desc">Before you build anything, we validate the core assumptions. Market, audience, demand, pricing. A clear go / no-go before a single hour is spent building the wrong thing.</p>
+      <p class="ec-timeline">→ 2 weeks · Validation report</p>
+      <a href="#contact" class="ec-cta secondary">Book a call →</a>
+    </div>
+    <div class="engage-card featured">
+      <span class="ec-tag pop">Most popular · 6 weeks</span>
+      <h3 class="ec-name">Launch Sprint</h3>
+      <p class="ec-desc">From idea to live business in six weeks. Strategy, brand, build, and launch — all executed by your BackOffice team while you focus on the decisions only you can make.</p>
+      <p class="ec-timeline">→ 6 weeks · Live and launched</p>
+      <a href="#contact" class="ec-cta primary">Book a Discovery Call →</a>
+    </div>
+    <div class="engage-card">
+      <span class="ec-tag def">Ongoing</span>
+      <h3 class="ec-name">Execution Partner</h3>
+      <p class="ec-desc">Already launched? We stay on as your ongoing execution team — new products, growth, operations, systems. Monthly. No fixed end date.</p>
+      <p class="ec-timeline">→ Monthly · Continuous momentum</p>
+      <a href="#contact" class="ec-cta secondary">Book a call →</a>
+    </div>
+    <div class="engage-card">
+      <span class="ec-tag def">Bundle</span>
+      <h3 class="ec-name">Sprint + Partner</h3>
+      <p class="ec-desc">Launch with us. Grow with us. The full journey in one engagement — from idea to live business, then ongoing execution support to scale what we built.</p>
+      <p class="ec-timeline">→ 6 weeks + ongoing</p>
+      <a href="#contact" class="ec-cta secondary">Book a call →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="divider"></div>
+<section class="section" id="contact">
+  <p class="eyebrow">Book a Discovery Call</p>
+  <h2 class="section-title">Tell us about<br>your idea.</h2>
+  <p class="section-sub">Not a sales call. A real conversation about what you're building and whether we're the right fit.</p>
+
+  <form id="contactForm" action="https://formspree.io/f/mojylbbp" method="POST">
+    <input type="hidden" name="_subject" value="New BackOffice Discovery Call Request"/>
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="fname">Your Name</label>
+        <input type="text" id="fname" name="name" placeholder="Full name" required/>
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@email.com" required/>
+      </div>
+      <div class="form-field">
+        <label for="engagement">Which engagement?</label>
+        <select id="engagement" name="engagement" required>
+          <option value="">Select one</option>
+          <option>Validation Sprint (2 weeks)</option>
+          <option>Launch Sprint (6 weeks)</option>
+          <option>Execution Partner (ongoing)</option>
+          <option>Sprint + Partner</option>
+          <option>Not sure — I need guidance</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label for="start">When do you want to start?</label>
+        <select id="start" name="start" required>
+          <option value="">Select one</option>
+          <option>As soon as possible</option>
+          <option>Within the next month</option>
+          <option>In the next 2–3 months</option>
+          <option>Still exploring</option>
+        </select>
+      </div>
+      <div class="form-field full">
+        <label for="idea">Tell us about your idea</label>
+        <textarea id="idea" name="idea" placeholder="What are you building? Who is it for? What's stopped you so far?"></textarea>
+      </div>
+    </div>
+    <button type="submit" class="btn-primary" id="submitBtn" style="margin-top:1.5rem">
+      <span id="submitLabel">Book Discovery Call →</span>
+      <span class="spinner" id="submitSpinner"></span>
+    </button>
+  </form>
+
+  <div id="successScreen">
+    <div class="success-check"></div>
+    <h3 style="font-family:var(--serif);font-size:2.4rem;font-weight:400;margin-bottom:.875rem">We'll be in touch.</h3>
+    <p style="color:var(--muted);font-size:.9rem;max-width:400px;margin:0 auto;line-height:1.8">Within 24 hours. Come ready to talk about the idea — the messier the better.</p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="divider"></div>
+<div class="final">
+  <h2 class="final-title">Stop saying,<br><em class="r-text">"I'll launch someday."</em></h2>
+  <p class="final-sub">Someday has a date now. Book a Discovery Call and let's set it.</p>
+  <a href="#contact" class="btn-primary"><span>Book a Discovery Call →</span></a>
+</div>
+
+<!-- FOOTER -->
+<div class="divider"></div>
+<footer>
+  <div>
+    <p class="footer-logo">BackOffice</p>
+    <p class="footer-tag">Execution Partner · Lagos, Nigeria</p>
+  </div>
+  <div class="footer-links">
+    <a href="privacy.html">Privacy</a>
+    <a href="discova.html">Discova</a>
+  </div>
+  <div>
+    <div class="footer-contact"><a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a></div>
+    <p class="footer-legal">© 2025 BackOffice. <a href="privacy.html">Privacy Policy</a></p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const label = document.getElementById('submitLabel');
+    const spinner = document.getElementById('submitSpinner');
+    btn.disabled = true; label.style.display = 'none'; spinner.style.display = 'block';
+    try {
+      const res = await fetch(this.action, { method:'POST', body:new FormData(this), headers:{'Accept':'application/json'} });
+      if (res.ok) {
+        document.getElementById('contactForm').style.display = 'none';
+        const s = document.getElementById('successScreen');
+        s.style.display = 'block';
+        s.scrollIntoView({ behavior:'smooth', block:'center' });
+      } else {
+        label.textContent = 'Try again →'; btn.disabled = false;
+        spinner.style.display = 'none'; label.style.display = 'inline';
       }
-    });
-  </script>
+    } catch {
+      label.textContent = 'Try again →'; btn.disabled = false;
+      spinner.style.display = 'none'; label.style.display = 'inline';
+    }
+  });
+</script>
 </body>
 </html>
