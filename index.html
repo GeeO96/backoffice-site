@@ -512,6 +512,7 @@
     }
     @media(max-width:900px){
       nav{padding:1rem 1.5rem;}
+      nav ul{display:none!important;}
       .hero{padding:7rem 1.5rem 5rem;}
       .section{padding:5rem 1.5rem;}
       .pain-grid{grid-template-columns:1fr;}
@@ -539,6 +540,11 @@
 <!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">BackOffice</a>
+  <ul style="display:flex;gap:2rem;list-style:none;align-items:center;">
+    <li><a href="#problem" style="font-size:.76rem;color:var(--mu);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--tx)'" onmouseout="this.style.color='var(--mu)'">The Problem</a></li>
+    <li><a href="#solution" style="font-size:.76rem;color:var(--mu);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--tx)'" onmouseout="this.style.color='var(--mu)'">The Solution</a></li>
+    <li><a href="#pricing" style="font-size:.76rem;color:var(--mu);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='var(--tx)'" onmouseout="this.style.color='var(--mu)'">Engagements</a></li>
+  </ul>
   <a href="#contact" class="nav-cta"><span>Book a Discovery Call</span></a>
 </nav>
 
@@ -764,12 +770,11 @@
 <footer>
   <div><p class="fl">BackOffice</p><p class="ft">Execution Partner · Lagos, Nigeria</p></div>
   <div class="flinks">
-    <a href="privacy.html">Privacy</a>
-    <a href="discova.html">Discova</a>
+    <a href="/privacy">Privacy</a>
   </div>
   <div>
     <div class="fcontact"><a href="mailto:contact.backofficeng@gmail.com">contact.backofficeng@gmail.com</a></div>
-    <p class="flegal">© 2025 BackOffice. <a href="privacy.html">Privacy Policy</a></p>
+    <p class="flegal">© 2025 BackOffice. <a href="/privacy">Privacy Policy</a></p>
   </div>
 </footer>
 
